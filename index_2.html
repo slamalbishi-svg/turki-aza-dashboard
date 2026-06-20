@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0A3E3E" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="عزاء تركي البيشي" />
+<meta name="description" content="منصة متابعة ترتيبات عزاء تركي بن فهد البيشي رحمه الله — توثيق وشفافية ومتابعة." />
+<title>منصة متابعة ترتيبات عزاء تركي البيشي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   منصة متابعة ترتيبات عزاء تركي البيشي — V4
+   هوية معكوسة: خلفية بيضاء + بطاقات زيتية غامقة. جوال أولاً.
+   ============================================================ */
+:root{
+  --page:#F5F8F7;
+  --ink:#0A3E3E;
+  --ink-soft:rgba(10,62,62,0.62);
+  --ink-faint:rgba(10,62,62,0.42);
+  --line-page:rgba(10,62,62,0.14);
+
+  --card:linear-gradient(160deg,#125555,#0A3E3E);
+  --card-2:rgba(255,255,255,0.08);
+  --line-card:rgba(255,255,255,0.16);
+  --on:#FFFFFF;
+  --on-muted:rgba(255,255,255,0.72);
+  --on-faint:rgba(255,255,255,0.50);
+
+  --pos:#34D6B2;          /* أخضر للموجب (داخل البطاقات الغامقة) */
+  --pos-ink:#138066;
+  --neg:#FF6B6B;          /* أحمر للسالب */
+  --neg-ink:#D14343;
+  --warn:#F4B24D;
+
+  --radius:20px;
+  --radius-sm:13px;
+  --shadow:0 18px 44px -22px rgba(10,62,62,0.40);
+  --font:"DIN Next Arabic","Alexandria","Segoe UI",Tahoma,Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  margin:0;font-family:var(--font);color:var(--ink);background:var(--page);
+  min-height:100vh;line-height:1.75;font-weight:400;font-size:16px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 14px 90px;}
+
+/* ===== مستويات الخط ===== */
+.platform-title{font-size:clamp(26px,6.2vw,40px);font-weight:800;line-height:1.25;margin:0;color:var(--ink);letter-spacing:-0.3px;}
+.fin-num{font-weight:700;line-height:1.1;}
+.sec-head h2{font-size:clamp(20px,5vw,27px);font-weight:700;margin:0;line-height:1.3;color:var(--ink);}
+.card-title{font-size:clamp(16px,4.2vw,19px);font-weight:600;color:var(--on);}
+.note{font-size:13px;color:var(--on-muted);line-height:1.7;}
+
+/* ===== الترويسة ===== */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.brand{display:flex;align-items:center;gap:11px;min-width:0;}
+.seal{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:20px;
+  background:var(--card);border:1px solid var(--line-page);box-shadow:var(--shadow);}
+.brand b{font-size:14px;font-weight:700;display:block;color:var(--ink);}
+.brand span{font-size:11.5px;color:var(--ink-faint);display:block;}
+.stamp{font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line-page);border-radius:999px;
+  padding:6px 13px;background:#fff;white-space:nowrap;}
+
+/* ===== العنوان ===== */
+.hero{text-align:center;padding:24px 6px 6px;margin-bottom:12px;}
+.eyebrow{font-size:11.5px;letter-spacing:3px;color:var(--pos-ink);margin-bottom:13px;font-weight:700;}
+.dua{font-size:clamp(15px,4.2vw,21px);font-weight:500;color:var(--ink);max-width:720px;margin:16px auto 0;line-height:1.95;}
+.rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:20px auto 0;max-width:280px;color:var(--pos-ink);opacity:.5;}
+.rule .l{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--pos-ink));}
+.rule .l.r{background:linear-gradient(90deg,var(--pos-ink),transparent);}
+
+/* ===== الأقسام ===== */
+.section{margin-top:52px;}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.sec-head .n{font-size:13px;color:var(--ink-faint);border:1px solid var(--line-page);border-radius:9px;padding:3px 10px;font-weight:700;}
+.sec-head .sub{font-size:13px;color:var(--ink-soft);width:100%;}
+
+/* شريط الخصوصية */
+.privacy-bar{display:flex;align-items:center;gap:9px;width:100%;margin-top:2px;font-size:13.5px;font-weight:700;
+  color:var(--neg-ink);background:rgba(227,93,93,0.09);border:1px solid rgba(227,93,93,0.35);
+  border-right:4px solid var(--neg-ink);border-radius:11px;padding:11px 14px;}
+
+/* ===== البطاقات الغامقة ===== */
+.card{background:var(--card);border:1px solid rgba(10,62,62,0.10);border-radius:var(--radius);
+  box-shadow:var(--shadow);color:var(--on);}
+
+/* ===== الهيرو المالي ===== */
+.fund{padding:26px 20px;text-align:center;}
+.fund .lab{font-size:14px;color:var(--on-muted);font-weight:500;}
+.fund .balance{margin:8px 0 4px;font-size:clamp(32px,10vw,50px);font-weight:800;line-height:1.05;color:var(--on);}
+.fund .balance.neg{color:var(--neg);}
+.fund .balance.pos{color:var(--pos);}
+.fund .cur{font-size:.4em;font-weight:600;color:var(--on-muted);margin-inline-start:7px;}
+.state-pill{display:inline-flex;align-items:center;gap:8px;margin-top:6px;font-size:15px;font-weight:700;padding:8px 18px;border-radius:999px;border:1px solid;}
+.state-pill.neg{color:var(--neg);border-color:rgba(255,107,107,0.5);background:rgba(255,107,107,0.12);}
+.state-pill.pos{color:var(--pos);border-color:rgba(52,214,178,0.5);background:rgba(52,214,178,0.12);}
+.state-pill.bal{color:var(--warn);border-color:rgba(244,178,77,0.5);background:rgba(244,178,77,0.12);}
+.fund-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px;}
+.fund-box{background:var(--card-2);border:1px solid var(--line-card);border-radius:var(--radius-sm);padding:14px;}
+.fund-box .k{font-size:13px;color:var(--on-muted);}
+.fund-box .v{margin-top:4px;color:var(--on);font-size:clamp(20px,5.5vw,26px);}
+.fund-box .v.in{color:var(--pos);}
+.fund-box .v.out{color:var(--warn);}
+
+/* ===== المؤشرات ===== */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.kpi{padding:17px 15px;}
+.kpi .ic{font-size:16px;margin-bottom:8px;color:var(--on-muted);}
+.kpi .v{font-size:22px;font-weight:700;line-height:1.1;color:var(--on);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.kpi .v .arw{font-size:0.85em;font-weight:800;}
+.kpi .v .arw.up{color:var(--pos);}
+.kpi .v .arw.down{color:var(--neg);}
+.kpi .k{font-size:12.5px;color:var(--on-muted);margin-top:4px;}
+
+/* ===== المخطط الزمني ===== */
+.timeline{padding:22px 20px 6px;}
+.tl-item{display:flex;gap:13px;padding-bottom:18px;position:relative;}
+.tl-item:not(:last-child)::before{content:"";position:absolute;right:13px;top:28px;bottom:0;width:2px;background:var(--line-card);}
+.tl-item.done:not(:last-child)::before{background:rgba(52,214,178,0.5);}
+.tl-dot{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:13px;border:2px solid var(--line-card);background:rgba(255,255,255,0.05);z-index:1;}
+.tl-item.done .tl-dot{border-color:var(--pos);color:var(--pos);}
+.tl-item.active .tl-dot{border-color:var(--warn);color:var(--warn);}
+.tl-item .t{font-size:15px;font-weight:600;color:var(--on);}
+.tl-item .s{font-size:12.5px;color:var(--on-muted);}
+.tl-item.active .s{color:var(--warn);}
+.tl-item.done .s{color:var(--pos);}
+
+/* ===== الجداول ===== */
+.table-card{padding:6px;overflow:hidden;}
+.table-card .cap{padding:13px 13px 4px;}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:12.5px;font-weight:700;color:var(--on-faint);text-align:right;padding:12px 13px;border-bottom:1px solid var(--line-card);white-space:nowrap;}
+tbody td{padding:12px 13px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:14.5px;vertical-align:middle;color:var(--on);}
+tbody tr:last-child td{border-bottom:none;}
+.op-id{font-size:12px;color:var(--pos);background:rgba(52,214,178,0.14);padding:3px 9px;border-radius:7px;white-space:nowrap;font-weight:600;}
+.amount{font-weight:700;white-space:nowrap;color:var(--on);}
+.amount.out{color:var(--warn);}
+.amount.in{color:var(--pos);}
+.badge{font-size:11.5px;padding:3px 11px;border-radius:999px;border:1px solid var(--line-card);color:var(--on-muted);white-space:nowrap;font-weight:500;display:inline-block;}
+.badge.ok{color:var(--pos);border-color:rgba(52,214,178,0.4);background:rgba(52,214,178,0.1);}
+.badge.warn-badge{color:var(--warn);border-color:rgba(244,178,77,0.4);background:rgba(244,178,77,0.12);}
+.tfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 13px;border-top:1px solid var(--line-card);flex-wrap:wrap;}
+.tfoot .lab{font-size:13.5px;color:var(--on-muted);font-weight:500;}
+.tfoot .total{font-weight:800;font-size:18px;color:var(--on);}
+.tfoot .total.out{color:var(--warn);}
+.tfoot .total.in{color:var(--pos);}
+
+/* تحويل الجداول إلى بطاقات في الجوال */
+@media(max-width:560px){
+  table.rtable thead{display:none;}
+  table.rtable, table.rtable tbody, table.rtable tr, table.rtable td{display:block;width:100%;}
+  table.rtable tr{border:1px solid var(--line-card);border-radius:12px;margin:0 4px 10px;padding:4px 2px;}
+  table.rtable td{border:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;text-align:left;}
+  table.rtable td::before{content:attr(data-label);color:var(--on-faint);font-size:12px;font-weight:700;text-align:right;flex:none;}
+  table.rtable td:empty{display:none;}
+}
+
+/* ===== بطاقات المجموعات ===== */
+.group-card{padding:18px;margin-bottom:12px;}
+.group-card .gh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+.group-card .gname{font-weight:700;font-size:16px;color:var(--on);}
+.group-card .gtotal{font-weight:800;font-size:19px;color:var(--pos);}
+.group-card .gmeta{margin-top:9px;font-size:13px;color:var(--on-muted);}
+.group-card .gmeta b{color:var(--on);font-weight:700;}
+.members{display:none;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-card);}
+.group-card.open .members{display:block;animation:fade .25s ease;}
+.member{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.07);}
+.member:last-child{border-bottom:none;}
+.member .mn{font-size:14px;color:var(--on);}
+.member .ma{font-weight:700;font-size:13.5px;color:var(--pos);white-space:nowrap;}
+.member .ma.none{color:var(--on-faint);font-weight:400;}
+.mnote{font-size:11.5px;color:var(--warn);}
+
+/* ===== بطاقات صغيرة ===== */
+.mini{padding:20px;}
+.mini .card-title{margin-bottom:12px;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+.stat-row:last-child{border-bottom:none;}
+.stat-row .l{color:var(--on-muted);font-size:14.5px;}
+.stat-row .r{font-weight:700;font-size:16px;color:var(--on);}
+.stat-row .r.pos{color:var(--pos);}
+.stat-row .r.warn{color:var(--warn);}
+.note-empty{text-align:center;color:var(--on-faint);font-size:14px;padding:22px 10px;border:1px dashed var(--line-card);border-radius:var(--radius-sm);background:var(--card);}
+
+/* ===== بطاقة أمين الصندوق ===== */
+.treasurer-card{display:flex;align-items:center;gap:14px;padding:18px 20px;margin-bottom:14px;border:1.5px solid rgba(244,178,77,0.6);}
+.treasurer-card .tc-ic{width:48px;height:48px;border-radius:14px;flex:none;display:grid;place-items:center;font-size:24px;background:rgba(244,178,77,0.16);border:1px solid rgba(244,178,77,0.4);}
+.treasurer-card .tc-label{font-size:13px;color:var(--warn);font-weight:700;}
+.treasurer-card .tc-name{font-size:19px;font-weight:800;color:var(--on);}
+
+/* ===== الخدمات اللوجستية ===== */
+.logi{padding:20px;}
+.logi .desc{font-size:14.5px;color:var(--on-muted);margin-bottom:14px;line-height:1.8;}
+.chips{display:flex;flex-wrap:wrap;gap:9px;}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--on);background:var(--card-2);border:1px solid var(--line-card);border-radius:999px;padding:8px 15px;}
+.chip .d{width:7px;height:7px;border-radius:50%;background:var(--pos);flex:none;}
+
+/* ===== الحسابات المالية ===== */
+.bank{padding:20px;}
+.bank .brow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;}
+.bank .brow:last-of-type{border-bottom:none;}
+.bank .bk{font-size:14px;color:var(--on-muted);flex:none;}
+.bank .bv{font-weight:700;font-size:15px;color:var(--on);direction:ltr;unicode-bidi:plaintext;word-break:break-all;text-align:left;}
+.bank .bv.mono{font-family:"Courier New",monospace;letter-spacing:.5px;}
+.bank-img{margin-top:14px;border:1px dashed var(--line-card);border-radius:var(--radius-sm);padding:18px;text-align:center;color:var(--on-faint);font-size:13.5px;background:rgba(255,255,255,0.03);}
+.bank-img img{max-width:100%;border-radius:10px;display:block;}
+
+/* ===== العهد ===== */
+.trust{padding:22px;}
+.trust .who{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.trust .av{width:44px;height:44px;border-radius:13px;flex:none;display:grid;place-items:center;font-size:18px;font-weight:700;background:rgba(244,178,77,0.16);border:1px solid rgba(244,178,77,0.4);}
+.trust .who b{font-size:16px;font-weight:700;display:block;color:var(--on);}
+.trust .who span{font-size:12.5px;color:var(--on-faint);}
+.trust-grid{display:grid;grid-template-columns:1fr;gap:11px;}
+.trust-box{padding:15px;border-radius:var(--radius-sm);background:var(--card-2);border:1px solid var(--line-card);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.trust-box .k{font-size:14px;color:var(--on-muted);}
+.trust-box .v{font-weight:800;font-size:19px;color:var(--on);}
+.trust-box .v.pos{color:var(--pos);}
+.trust-box .v.warn{color:var(--warn);}
+.trust-box .v.neg{color:var(--neg);}
+
+/* ===== سجل التحديثات ===== */
+.updates{padding:20px;}
+.up-item{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+.up-item:last-child{border-bottom:none;}
+.up-date{font-size:11px;color:var(--pos);background:rgba(52,214,178,0.1);border:1px solid rgba(52,214,178,0.25);border-radius:8px;padding:4px 9px;height:fit-content;white-space:nowrap;flex:none;}
+.up-text{font-size:14px;color:var(--on);opacity:.94;}
+
+/* ===== المرفقات ===== */
+.att-card{padding:0;overflow:hidden;margin-bottom:12px;}
+.att-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:transparent;border:none;color:var(--on);cursor:pointer;padding:15px 16px;font-family:var(--font);font-size:14.5px;text-align:right;}
+.att-body{display:none;padding:0 16px 8px;}
+.att-card.open .att-body{display:block;animation:fade .25s ease;}
+.att-file{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 0;border-top:1px solid rgba(255,255,255,0.08);}
+.att-name{font-size:14px;font-weight:700;color:var(--on);}
+.att-link{color:var(--pos);font-size:13px;text-decoration:none;margin-inline-start:auto;border:1px solid rgba(52,214,178,0.35);border-radius:9px;padding:5px 12px;background:rgba(52,214,178,0.08);}
+
+/* ===== لوحة الإدارة ===== */
+.admin-bar{padding:22px;text-align:center;}
+.admin-bar .card-title{margin-bottom:6px;}
+.admin-bar .d1{font-size:14.5px;color:var(--on);margin-bottom:4px;}
+.admin-bar .d2{font-size:13px;color:var(--on-muted);margin-bottom:16px;line-height:1.8;}
+.btn{font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;border:1px solid rgba(244,178,77,0.5);background:rgba(244,178,77,0.16);color:var(--warn);padding:13px 24px;border-radius:13px;display:inline-flex;align-items:center;gap:9px;transition:all .2s ease;}
+.btn:hover{background:rgba(244,178,77,0.26);}
+.btn.locked{border-color:rgba(52,214,178,0.5);background:rgba(52,214,178,0.16);color:var(--pos);}
+#sensitive{display:none;margin-top:16px;}
+#sensitive.open{display:block;animation:fade .4s ease;}
+.sens-tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--neg);background:rgba(255,107,107,0.12);border:1px solid rgba(255,107,107,0.35);border-radius:999px;padding:6px 15px;margin-bottom:14px;}
+.sens-block{margin-bottom:16px;text-align:right;}
+
+/* ===== المودال ===== */
+.modal{position:fixed;inset:0;display:none;place-items:center;z-index:50;background:rgba(10,62,62,0.55);backdrop-filter:blur(5px);padding:18px;}
+.modal.open{display:grid;animation:fade .25s ease;}
+.modal-card{width:100%;max-width:370px;padding:28px;text-align:center;}
+.modal-card .lock{font-size:30px;margin-bottom:8px;}
+.modal-card h3{font-size:18px;font-weight:700;margin:0 0 6px;color:var(--on);}
+.modal-card p{color:var(--on-muted);font-size:13px;margin:0 0 18px;}
+.modal-card input{width:100%;text-align:center;font-family:var(--font);font-size:20px;letter-spacing:6px;padding:14px;border-radius:12px;border:1px solid var(--line-card);background:rgba(255,255,255,0.06);color:var(--on);outline:none;margin-bottom:8px;}
+.modal-card input:focus{border-color:var(--pos);box-shadow:0 0 0 3px rgba(52,214,178,0.18);}
+.modal-err{color:var(--neg);font-size:13px;min-height:18px;margin-bottom:10px;font-weight:600;}
+.modal-actions{display:flex;gap:10px;}
+.modal-actions .btn{flex:1;justify-content:center;}
+.btn.ghost{border-color:var(--line-card);background:transparent;color:var(--on-muted);}
+
+/* ===== التذييل ===== */
+.footer{margin-top:56px;text-align:center;color:var(--ink-faint);font-size:13px;border-top:1px solid var(--line-page);padding-top:24px;line-height:2;}
+.footer .dm{color:var(--ink-soft);font-size:15px;font-weight:600;}
+
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+@media(min-width:620px){
+  .wrap{padding:28px 22px 100px;}
+  .kpis{grid-template-columns:repeat(3,1fr);}
+  .fund{padding:32px;}
+  .trust-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:960px){
+  .kpis{grid-template-columns:repeat(6,1fr);}
+  .section{margin-top:64px;}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="seal">📋</div>
+      <div><b>منصة المتابعة</b><span>عزاء تركي بن فهد البيشي — رحمه الله</span></div>
+    </div>
+    <div class="stamp" id="updateStamp">آخر تحديث —</div>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">توثيق · شفافية · متابعة</div>
+    <h1 class="platform-title">منصة متابعة ترتيبات عزاء تركي البيشي</h1>
+    <p class="dua">اللهم اغفر لعبدك تركي بن فهد البيشي وارحمه رحمة واسعة</p>
+    <div class="rule"><span class="l"></span><span>◆</span><span class="l r"></span></div>
+  </header>
+
+  <!-- 01 حالة الصندوق -->
+  <section class="section">
+    <div class="sec-head"><span class="n">01</span><h2>حالة الصندوق</h2><span class="sub">الوضع المالي العام للعزاء</span></div>
+    <div class="card fund">
+      <div class="lab">الرصيد الحالي</div>
+      <div class="balance fin-num" id="balanceVal">—</div>
+      <div id="statePill"></div>
+      <div class="fund-split">
+        <div class="fund-box"><div class="k">إجمالي الوارد</div><div class="v in fin-num" id="totalIn">—</div></div>
+        <div class="fund-box"><div class="k">إجمالي المصروف</div><div class="v out fin-num" id="totalOut">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 المؤشرات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">02</span><h2>المؤشرات الرئيسية</h2><span class="sub">قراءة سريعة لأرقام العزاء</span></div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <!-- 03 المخطط الزمني -->
+  <section class="section">
+    <div class="sec-head"><span class="n">03</span><h2>المخطط الزمني</h2><span class="sub">✓ مكتمل · ⏳ جاري · 📌 بانتظار</span></div>
+    <div class="card timeline"><div id="timeline"></div></div>
+  </section>
+
+  <!-- 04 المصروفات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">04</span><h2>المصروفات</h2><span class="sub" id="expCount">—</span></div>
+    <div class="card table-card">
+      <div class="scroll"><table class="rtable">
+        <thead><tr><th>رقم العملية</th><th>البند</th><th>الوصف</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+        <tbody id="expBody"></tbody>
+      </table></div>
+      <div class="tfoot"><span class="lab">إجمالي المصروفات</span><span class="total out" id="expTotal">—</span></div>
+    </div>
+  </section>
+
+  <!-- 05 المساهمات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">05</span><h2>المساهمات</h2>
+      <div class="privacy-bar">🔒 الأسماء والتفاصيل المالية تظهر من خلال لوحة الإدارة فقط</div></div>
+    <div id="groups"></div>
+    <div class="card mini" style="margin-top:4px">
+      <div class="stat-row"><span class="l">عدد المجموعات</span><span class="r" id="grpCount">—</span></div>
+      <div class="stat-row"><span class="l">إجمالي عدد المشاركين</span><span class="r" id="contribCount">—</span></div>
+      <div class="stat-row"><span class="l">إجمالي المساهمات</span><span class="r pos" id="contribTotal">—</span></div>
+    </div>
+  </section>
+
+  <!-- 06 المبالغ المستلمة لدى أمين الصندوق -->
+  <section class="section">
+    <div class="sec-head"><span class="n">06</span><h2>المبالغ المستلمة لدى أمين الصندوق</h2></div>
+    <div class="card treasurer-card">
+      <div class="tc-ic">👮</div>
+      <div><div class="tc-label">أمين الصندوق</div><div class="tc-name" id="treasurerName">—</div></div>
+    </div>
+    <div class="card table-card">
+      <div class="scroll"><table class="rtable">
+        <thead><tr><th>المصدر</th><th>المبلغ المستلم</th></tr></thead>
+        <tbody id="receivedBody"></tbody>
+      </table></div>
+      <div class="tfoot"><span class="lab">إجمالي المستلم فعلياً</span><span class="total in" id="receivedTotal">—</span></div>
+    </div>
+  </section>
+
+  <!-- 07 التحويلات الوسيطة -->
+  <section class="section">
+    <div class="sec-head"><span class="n">07</span><h2>التحويلات الوسيطة</h2>
+      <div class="privacy-bar">🔒 الأسماء والتفاصيل المالية تظهر من خلال لوحة الإدارة فقط</div>
+      <span class="sub">مبالغ وصلت لأشخاص قبل وصولها لأمين الصندوق</span></div>
+    <div class="card mini">
+      <div class="stat-row"><span class="l">عدد التحويلات</span><span class="r" id="transCount">—</span></div>
+      <div class="stat-row"><span class="l">إجمالي التحويلات الوسيطة</span><span class="r warn" id="transTotal">—</span></div>
+      <div class="note" style="margin-top:10px">تُحتسب ضمن إجمالي التحويلات الوسيطة فقط، وتُعرض تفاصيل المرسِل والمستلِم في لوحة الإدارة.</div>
+    </div>
+  </section>
+
+  <!-- 08 المبالغ المخصصة -->
+  <section class="section">
+    <div class="sec-head"><span class="n">08</span><h2>المبالغ المخصصة</h2><span class="sub">مبالغ مرصودة لغرض محدد ومفصولة عن التبرعات العامة</span></div>
+    <div id="allocations"></div>
+  </section>
+
+  <!-- 09 التكفلات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">09</span><h2>التكفلات</h2><span class="sub" id="sponsSub">—</span></div>
+    <div id="sponsWrap"></div>
+  </section>
+
+  <!-- 10 الخدمات اللوجستية -->
+  <section class="section">
+    <div class="sec-head"><span class="n">10</span><h2>الخدمات اللوجستية</h2><span class="sub">المسؤولون عن التجهيزات الميدانية</span></div>
+    <div class="card logi">
+      <div class="desc" id="logiDesc">—</div>
+      <div class="chips" id="logiChips"></div>
+    </div>
+  </section>
+
+  <!-- 11 المستحقات والتسويات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">11</span><h2>المستحقات والتسويات المالية</h2><span class="sub">مبالغ مستحقة وتسوياتها</span></div>
+    <div id="recvWrap"></div>
+  </section>
+
+  <!-- 12 الحسابات المالية المعتمدة -->
+  <section class="section">
+    <div class="sec-head"><span class="n">12</span><h2>الحسابات المالية المعتمدة</h2><span class="sub">حساب استقبال المساهمات</span></div>
+    <div id="banks"></div>
+  </section>
+
+  <!-- 13 العهد المالية -->
+  <section class="section">
+    <div class="sec-head"><span class="n">13</span><h2>العهد المالية</h2><span class="sub">عهدة أمين الصندوق: المستلم والمصروف والمتبقي</span></div>
+    <div id="trusts"></div>
+  </section>
+
+  <!-- 14 المرفقات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">14</span><h2>المرفقات والمستندات</h2><span class="sub">📎 فواتير · صور · PDF · حوالات</span></div>
+    <div class="card mini" style="margin-bottom:12px">
+      <div class="stat-row"><span class="l">عدد العمليات التي تحتوي مرفقات</span><span class="r" id="attOps">—</span></div>
+      <div class="stat-row"><span class="l">إجمالي المرفقات المسجلة</span><span class="r warn" id="attTotal">—</span></div>
+    </div>
+    <div id="attCards"></div>
+    <div class="note-empty" id="attEmpty" style="display:none">لا توجد مرفقات موثّقة بعد. الهيكل جاهز للربط لاحقاً بملف بيانات أو Google Drive.</div>
+  </section>
+
+  <!-- 15 سجل التحديثات -->
+  <section class="section">
+    <div class="sec-head"><span class="n">15</span><h2>سجل التحديثات</h2></div>
+    <div class="card updates" id="updatesList"></div>
+  </section>
+
+  <!-- 16 لوحة الإدارة -->
+  <section class="section">
+    <div class="sec-head"><span class="n">16</span><h2>لوحة الإدارة</h2></div>
+    <div class="card admin-bar">
+      <div class="card-title">🔐 الوصول محمي بكلمة مرور</div>
+      <div class="d1">إدارة بيانات المشاركين والمساهمات والعهد والمستندات</div>
+      <div class="d2">أسماء المشاركين · تفاصيل المبالغ · العهد المالية · التحويلات · المستندات والمرفقات</div>
+      <button class="btn" id="adminBtn">👁 العرض من خلال الإدارة</button>
+
+      <div id="sensitive">
+        <div class="sens-tag">🔓 وضع العرض الإداري مُفعّل — يُرجى الحفاظ على السرية</div>
+
+        <div class="sens-block card table-card">
+          <div class="cap card-title">💰 تفاصيل المشاركين داخل المجموعات</div>
+          <div id="sensGroups"></div>
+        </div>
+
+        <div class="sens-block card table-card">
+          <div class="cap card-title">🔁 تفاصيل التحويلات الوسيطة</div>
+          <div class="scroll"><table class="rtable">
+            <thead><tr><th>المرسِل</th><th></th><th>المستلِم</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+            <tbody id="sensTransBody"></tbody>
+          </table></div>
+        </div>
+
+        <div class="sens-block card table-card">
+          <div class="cap card-title">🎯 تفاصيل المبالغ المخصصة</div>
+          <div class="scroll"><table class="rtable">
+            <thead><tr><th>الجهة</th><th>المبلغ</th><th>الغرض</th><th>المصدر</th></tr></thead>
+            <tbody id="sensAllocBody"></tbody>
+          </table></div>
+        </div>
+
+        <div class="sens-block card mini">
+          <div class="card-title">📁 العهد المالية — تفصيل</div>
+          <div id="sensTrustBody" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="dm">رحم الله الفقيد وأسكنه فسيح جناته</div>
+    <div>منصة متابعة ترتيبات عزاء تركي البيشي · جميع الأرقام محسوبة آلياً من البيانات المعتمدة</div>
+  </footer>
+</div>
+
+<div class="modal" id="modal">
+  <div class="card modal-card">
+    <div class="lock">🔒</div>
+    <h3>الدخول إلى لوحة الإدارة</h3>
+    <p>هذه المنطقة مخصصة لأصحاب الصلاحية فقط</p>
+    <input type="password" id="pwInput" placeholder="••••" autocomplete="off" inputmode="numeric" />
+    <div class="modal-err" id="pwErr"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" id="cancelBtn">إلغاء</button>
+      <button class="btn" id="confirmBtn">دخول</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   كائن البيانات الموحّد — V4 (بيانات فعلية فقط)
+   ============================================================ */
+const DATA = {
+  meta:{ currency:"ر.س", treasurer:"موسى فهد البيشي", lastUpdate:"اليوم الثاني من العزاء", adminPassword:"5070" },
+
+  groups:[
+    { id:"G1", name:"المجموعة الأولى", total:1300, members:[
+      {name:"حيدر بن فايز آل عجيم"},{name:"عبدالرحمن بن حيدر آل عجيم"},{name:"محمد بن حيدر آل عجيم"},
+      {name:"ناصر بن سياف"},{name:"حيدر بن شريف المعاوي"},{name:"سلطان بن شريف"},{name:"جبر بن شعيل"},
+      {name:"محمد سياف"},{name:"عبدالله سياف"},{name:"فواز سياف"},{name:"فايز بن حيدر"},
+      {name:"عبدالرحمن سياف"},{name:"علي شريف"},{name:"علي بن عكان"}
+    ]},
+    { id:"G2", name:"المجموعة الثانية", total:5000, members:[
+      {name:"ناصر بن سعد", amount:500},
+      {name:"عبدالعزيز عارف (إخوانه وأخواته)", amount:2000},
+      {name:"عيال الغفيلي", amount:2500, note:"يشمل 500 ريال مخصصة للمياه على نية الفقيد"}
+    ]},
+    { id:"G3", name:"المجموعة الثالثة", total:500, members:[
+      {name:"فهد عنزي", amount:100},{name:"سليمان موسى", amount:100},{name:"سلطان بن مرزوق", amount:100},
+      {name:"موسى بن علي", amount:100},{name:"عبدالله بن موسى", amount:100}
+    ]},
+    { id:"G4", name:"المجموعة الرابعة", total:2300, members:[
+      {name:"علي محمد بن نقاش", amount:500},{name:"علي عبدالرحمن بن علي", amount:200},
+      {name:"عيال عبيد بن علي", amount:800},{name:"علي آل جبر", amount:500},{name:"عماد آل قنوان", amount:300}
+    ]}
+  ],
+
+  expenses:[
+    {id:"EXP-0001", item:"مقاضي وتجهيزات أولية", desc:"مقاضي وتجهيزات أولية للعزاء", amount:500,    status:"مدفوع", attachments:[]},
+    {id:"EXP-0002", item:"تجهيزات الخيمة والمجلس", desc:"الخيمة والمولد والمكيفات والفرش والكراسي والقهوة والتجهيزات النسائية لثلاثة أيام", amount:7350, status:"مدفوع", attachments:[]},
+    {id:"EXP-0003", item:"عشاء اليوم الأول", desc:"عشاء اليوم الأول (ذبيحتان)", amount:4000, status:"مدفوع", attachments:[]},
+    {id:"EXP-0004", item:"مقاضي اليوم الثاني", desc:"مقاضي اليوم الثاني", amount:257.75, status:"مدفوع", attachments:[]}
+  ],
+
+  /* التحويلات الوسيطة — تُحتسب ضمن إجمالي التحويلات فقط (لا تُضاف للوارد لتفادي الازدواج
+     لأن بعضها هو تسليم مساهمات مجموعات، مثل عيال الغفيلي)
+     الحالة للمحوّل إلى أمين الصندوق "موسى البيشي" مُدرجة كـ "تم التسليم"؛ عدّلها عند الحاجة */
+  transfers:[
+    {from:"تركي عبدالعزيز بن عويد السعدي", to:"سليمان البيشي", amount:200, status:"بانتظار التسليم لأمين الصندوق"},
+    {from:"علي عبدالله جبر", to:"موسى البيشي", amount:500, status:"تم التسليم لأمين الصندوق"},
+    {from:"عبادي السياف", to:"موسى البيشي", amount:300, status:"تم التسليم لأمين الصندوق"},
+    {from:"عيال الغفيلي", to:"موسى البيشي", amount:2500, status:"تم التسليم لأمين الصندوق"},
+    {from:"أبو راكان", to:"موسى البيشي", amount:2000, status:"تم التسليم لأمين الصندوق"}
+  ],
+
+  allocations:[
+    {donor:"أبو بدر الغفيلي", amount:500, purpose:"كراتين مياه على نية تركي بن فهد البيشي رحمه الله", source:"من ضمن مساهمة عيال الغفيلي"}
+  ],
+
+  /* التكفلات المحتملة — لا تُحتسب مصروفاً أو إيراداً حتى اعتمادها */
+  sponsorships:[
+    {name:"عبدالرحمن الدوسري", status:"بانتظار التأكيد", note:"تكفل محتمل"},
+    {name:"هاني متولي", status:"بانتظار التأكيد", note:"تكفل محتمل"},
+    {name:"مشاري الجويرة", status:"بانتظار التأكيد", note:"تكفل محتمل"}
+  ],
+
+  /* الخدمات اللوجستية */
+  logistics:{
+    desc:"إدارة الخيمة والمجلس والذبائح والعشاء والتجهيزات الميدانية.",
+    team:["فيصل الدوخي","محمد الشهري (أبو بكر)","فوزي عاشور"]
+  },
+
+  /* الحسابات المالية المعتمدة — أضف رابط/صورة الحساب في image عند توفّره */
+  banks:[
+    {name:"خليجي بحري", number:"626000010006089249311", iban:"SA1780000626608019249311", image:null}
+  ],
+
+  /* المستحقات قيد الحصر — status: بانتظار السداد | تم السداد | متنازل عنه */
+  receivables:[
+    {person:"مشتريات سليمان البيشي", amount:500, reason:"مستحقات قيد الحصر", status:"بانتظار السداد"}
+  ],
+
+  timeline:[
+    {stage:"قبل العزاء", status:"done"},{stage:"اليوم الأول", status:"done"},{stage:"اليوم الثاني", status:"active"},
+    {stage:"اليوم الثالث", status:"wait"},{stage:"استكمال الالتزامات", status:"wait"},
+    {stage:"إقفال الحسابات", status:"wait"},{stage:"التقرير الختامي", status:"wait"}
+  ],
+
+  updates:[
+    {date:"قبل العزاء", text:"بدء تجهيزات الخيمة والمجلس واعتماد مسار الصرف."},
+    {date:"اليوم الأول", text:"صرف تجهيزات الخيمة والمولد والفرش، وعشاء اليوم الأول (ذبيحتان)."},
+    {date:"اليوم الأول", text:"تسجيل مساهمات المجموعات الأربع، وتوثيق التحويلات الوسيطة لأمين الصندوق."},
+    {date:"اليوم الثاني", text:"صرف مقاضي اليوم الثاني، وإضافة المستحقات قيد الحصر والتكفلات المحتملة."}
+  ]
+};
+
+/* ---------- أدوات ---------- */
+const CUR=DATA.meta.currency;
+const fmt=n=>Number(n).toLocaleString("en-US",{minimumFractionDigits:(n%1?2:0),maximumFractionDigits:2});
+const money=n=>`${fmt(n)} <span class="cur">${CUR}</span>`;
+const reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const esc=s=>String(s);
+function badgeCls(s){
+  const ok=["مدفوع","مكتمل","تم السداد","تم التسليم لأمين الصندوق","تم صرفها مباشرة"];
+  const wait=["بانتظار","مستحق","بانتظار التسليم","بانتظار التسليم لأمين الصندوق","بانتظار السداد","بانتظار التأكيد"];
+  if(ok.includes(s))return "ok";
+  if(wait.includes(s))return "warn-badge";
+  return "";
+}
+
+/* ---------- الحسابات ---------- */
+const totalIn  = DATA.groups.reduce((a,g)=>a+(+g.total||0),0);
+const totalOut = DATA.expenses.reduce((a,e)=>a+(+e.amount||0),0);
+const balance  = totalIn - totalOut;
+const contribCount = DATA.groups.reduce((a,g)=>a+g.members.length,0);
+const allocTotal = DATA.allocations.reduce((a,x)=>a+(+x.amount||0),0);
+const transTotal = DATA.transfers.reduce((a,x)=>a+(+x.amount||0),0);
+const attAll = DATA.expenses.filter(e=>e.attachments&&e.attachments.length);
+const attTotal = attAll.reduce((a,e)=>a+e.attachments.length,0);
+const treasurerReceived = totalIn;
+
+function fundState(b){ if(b>0)return{cls:"pos",label:"🟢 فائض"}; if(b<0)return{cls:"neg",label:"🔴 عجز"}; return{cls:"bal",label:"🟠 توازن"}; }
+function countUp(el,target){ if(reduced){el.innerHTML=money(target);return;}
+  const dur=900,t0=performance.now();
+  (function step(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.innerHTML=money(target*e);
+    if(p<1)requestAnimationFrame(step);else el.innerHTML=money(target);})(t0); }
+
+function render(){
+  document.getElementById("updateStamp").textContent="آخر تحديث · "+DATA.meta.lastUpdate;
+
+  // حالة الصندوق
+  const st=fundState(balance);
+  const balEl=document.getElementById("balanceVal");
+  balEl.className="balance fin-num "+st.cls; countUp(balEl,balance);
+  document.getElementById("statePill").innerHTML=`<span class="state-pill ${st.cls}">${st.label}</span>`;
+  document.getElementById("totalIn").innerHTML=money(totalIn);
+  document.getElementById("totalOut").innerHTML=money(totalOut);
+
+  // المؤشرات
+  const kpis=[
+    {k:"إجمالي الوارد", v:`<span class="arw up">▲</span> ${money(totalIn)}`},
+    {k:"إجمالي المصروف", v:`<span class="arw down">▼</span> ${money(totalOut)}`},
+    {k:"عدد المشاركين", v:contribCount, ic:"👥"},
+    {k:"عدد المصروفات", v:DATA.expenses.length, ic:"🧾"},
+    {k:"التكفلات المحتملة", v:DATA.sponsorships.length, ic:"🤝"},
+    {k:"المبالغ المخصصة", v:money(allocTotal), ic:"🎯"}
+  ];
+  document.getElementById("kpis").innerHTML=kpis.map(x=>
+    `<div class="card kpi">${x.ic?`<div class="ic">${x.ic}</div>`:`<div class="ic">&nbsp;</div>`}
+      <div class="v">${x.v}</div><div class="k">${x.k}</div></div>`).join("");
+
+  // المخطط الزمني
+  const icon={done:"✓",active:"⏳",wait:"📌"},lbl={done:"مكتمل",active:"جاري",wait:"بانتظار"};
+  document.getElementById("timeline").innerHTML=DATA.timeline.map(s=>
+    `<div class="tl-item ${s.status}"><div class="tl-dot">${icon[s.status]}</div>
+      <div><div class="t">${s.stage}</div><div class="s">${lbl[s.status]}</div></div></div>`).join("");
+
+  // المصروفات (مع data-label للجوال)
+  document.getElementById("expCount").textContent=`عدد المصروفات: ${DATA.expenses.length}`;
+  document.getElementById("expBody").innerHTML=DATA.expenses.map(e=>
+    `<tr><td data-label="رقم العملية"><span class="op-id">${e.id}</span></td>
+      <td data-label="البند">${e.item}</td>
+      <td data-label="الوصف" style="color:var(--on-muted)">${e.desc}</td>
+      <td data-label="المبلغ"><span class="amount out">${money(e.amount)}</span></td>
+      <td data-label="الحالة"><span class="badge ${badgeCls(e.status)}">${e.status}</span></td></tr>`).join("");
+  document.getElementById("expTotal").innerHTML=money(totalOut);
+
+  // المساهمات
+  document.getElementById("groups").innerHTML=DATA.groups.map(g=>
+    `<div class="card group-card" data-g="${g.id}">
+      <div class="gh"><span class="gname">${g.name}</span><span class="gtotal">${money(g.total)}</span></div>
+      <div class="gmeta">عدد المشاركين: <b>${g.members.length}</b></div>
+      <div class="members">${g.members.map(m=>
+        `<div class="member"><span class="mn">${m.name}${m.note?` <span class="mnote">— ${m.note}</span>`:""}</span>
+          <span class="ma ${m.amount?'':'none'}">${m.amount?money(m.amount):"—"}</span></div>`).join("")}</div>
+    </div>`).join("");
+  document.getElementById("grpCount").textContent=DATA.groups.length;
+  document.getElementById("contribCount").textContent=contribCount;
+  document.getElementById("contribTotal").innerHTML=money(totalIn);
+
+  // أمين الصندوق + المستلم
+  document.getElementById("treasurerName").textContent=DATA.meta.treasurer;
+  document.getElementById("receivedBody").innerHTML=DATA.groups.map(g=>
+    `<tr><td data-label="المصدر">${g.name}</td><td data-label="المبلغ"><span class="amount in">${money(g.total)}</span></td></tr>`).join("");
+  document.getElementById("receivedTotal").innerHTML=money(treasurerReceived);
+
+  // التحويلات الوسيطة (عام)
+  document.getElementById("transCount").textContent=DATA.transfers.length;
+  document.getElementById("transTotal").innerHTML=money(transTotal);
+
+  // المبالغ المخصصة (عام بدون اسم)
+  document.getElementById("allocations").innerHTML=DATA.allocations.length
+    ? DATA.allocations.map(a=>
+      `<div class="card mini">
+        <div class="stat-row"><span class="l">المبلغ المخصص</span><span class="r warn">${money(a.amount)}</span></div>
+        <div class="stat-row"><span class="l">الغرض</span><span class="r" style="font-size:14px;font-weight:500;text-align:left">${a.purpose}</span></div>
+        <div class="note" style="margin-top:10px">مفصولة عن التبرعات العامة · ${a.source} · اسم الجهة في لوحة الإدارة.</div>
+      </div>`).join("")
+    : `<div class="note-empty">لا توجد مبالغ مخصصة مسجلة</div>`;
+
+  // التكفلات (أسماء المتكفلين المحتملين + الحالة)
+  document.getElementById("sponsSub").textContent=`عدد التكفلات المحتملة: ${DATA.sponsorships.length} · لا تُحتسب مصروفاً أو إيراداً حتى اعتمادها`;
+  document.getElementById("sponsWrap").innerHTML=DATA.sponsorships.length
+    ? `<div class="card table-card"><div class="scroll"><table class="rtable">
+        <thead><tr><th>المتكفل</th><th>النوع</th><th>الحالة</th></tr></thead>
+        <tbody>${DATA.sponsorships.map(s=>
+          `<tr><td data-label="المتكفل">${s.name}</td>
+            <td data-label="النوع" style="color:var(--on-muted)">${s.note||'—'}</td>
+            <td data-label="الحالة"><span class="badge ${badgeCls(s.status)}">${s.status}</span></td></tr>`).join("")}</tbody>
+       </table></div></div>`
+    : `<div class="note-empty">لا توجد تكفلات مسجلة حتى الآن</div>`;
+
+  // الخدمات اللوجستية
+  document.getElementById("logiDesc").textContent=DATA.logistics.desc;
+  document.getElementById("logiChips").innerHTML=DATA.logistics.team.map(p=>
+    `<span class="chip"><span class="d"></span>${p}</span>`).join("");
+
+  // المستحقات
+  document.getElementById("recvWrap").innerHTML=DATA.receivables.length
+    ? `<div class="card table-card">
+        <div class="cap card-title" style="padding:14px 14px 6px">مستحقات قيد الحصر</div>
+        <div class="scroll"><table class="rtable">
+        <thead><tr><th>البند</th><th>المبلغ</th><th>الحالة</th></tr></thead>
+        <tbody>${DATA.receivables.map(r=>
+          `<tr><td data-label="البند">${r.person}</td>
+            <td data-label="المبلغ"><span class="amount">${money(r.amount)}</span></td>
+            <td data-label="الحالة"><span class="badge ${badgeCls(r.status)}">${r.status}</span></td></tr>`).join("")}</tbody>
+       </table></div></div>`
+    : `<div class="note-empty">لا توجد مستحقات مسجلة</div>`;
+
+  // الحسابات المالية
+  document.getElementById("banks").innerHTML=DATA.banks.map(b=>
+    `<div class="card bank">
+      <div class="brow"><span class="bk">اسم الحساب</span><span class="bv">${b.name}</span></div>
+      <div class="brow"><span class="bk">رقم الحساب</span><span class="bv mono">${b.number}</span></div>
+      <div class="brow"><span class="bk">الآيبان (IBAN)</span><span class="bv mono">${b.iban}</span></div>
+      <div class="bank-img">${b.image?`<img src="${b.image}" alt="صورة الحساب">`:`📷 صورة الحساب — تُضاف عبر الحقل image في البيانات (رابط الصورة أو Google Drive)`}</div>
+    </div>`).join("");
+
+  // العهد
+  document.getElementById("trusts").innerHTML=`
+    <div class="card trust">
+      <div class="who"><div class="av">${DATA.meta.treasurer.charAt(0)}</div>
+        <div><b>${DATA.meta.treasurer}</b><span>أمين الصندوق</span></div></div>
+      <div class="trust-grid">
+        <div class="trust-box"><span class="k">المبلغ المستلم</span><span class="v pos">${money(treasurerReceived)}</span></div>
+        <div class="trust-box"><span class="k">المبلغ المصروف</span><span class="v warn">${money(totalOut)}</span></div>
+        <div class="trust-box"><span class="k">المتبقي</span><span class="v ${balance<0?'neg':'pos'}">${money(balance)}</span></div>
+      </div>
+    </div>`;
+
+  // المرفقات
+  document.getElementById("attOps").textContent=attAll.length;
+  document.getElementById("attTotal").textContent=attTotal;
+  const box=document.getElementById("attCards");
+  if(attAll.length){
+    document.getElementById("attEmpty").style.display="none";
+    box.innerHTML=attAll.map(o=>`<div class="card att-card">
+      <button class="att-toggle"><span><span class="op-id">${o.id}</span> ${o.item}</span>
+        <span style="color:var(--pos);font-size:13px">📎 يوجد مرفقات (${o.attachments.length}) ▾</span></button>
+      <div class="att-body">${o.attachments.map(a=>
+        `<div class="att-file"><span class="att-name">${a.name}</span><span class="badge">${a.type}</span>
+          <a class="att-link" href="${a.drive||'#'}" target="_blank" rel="noopener">رابط Google Drive ↗</a></div>`).join("")}</div>
+    </div>`).join("");
+    box.querySelectorAll(".att-toggle").forEach(b=>b.addEventListener("click",()=>b.parentElement.classList.toggle("open")));
+  }else{box.innerHTML="";document.getElementById("attEmpty").style.display="block";}
+
+  // التحديثات
+  document.getElementById("updatesList").innerHTML=DATA.updates.map(u=>
+    `<div class="up-item"><span class="up-date">${u.date}</span><span class="up-text">${u.text}</span></div>`).join("");
+
+  // ---- لوحة الإدارة ----
+  document.getElementById("sensGroups").innerHTML=DATA.groups.map(g=>
+    `<div style="padding:14px 14px 4px"><b style="font-weight:700;color:var(--on)">${g.name} — ${fmt(g.total)} ${CUR}</b></div>
+     <div class="scroll" style="padding:0 6px 12px"><table class="rtable">
+       <thead><tr><th>المشارك</th><th>المبلغ</th></tr></thead>
+       <tbody>${g.members.map(m=>`<tr><td data-label="المشارك">${m.name}${m.note?` <span class="mnote">(${m.note})</span>`:""}</td>
+         <td data-label="المبلغ"><span class="amount ${m.amount?'in':''}">${m.amount?money(m.amount):"غير محدد"}</span></td></tr>`).join("")}</tbody>
+     </table></div>`).join("");
+
+  document.getElementById("sensTransBody").innerHTML=DATA.transfers.map(t=>
+    `<tr><td data-label="المرسِل">${t.from}</td><td style="color:var(--pos);text-align:center">⇦</td>
+      <td data-label="المستلِم">${t.to}</td><td data-label="المبلغ"><span class="amount">${money(t.amount)}</span></td>
+      <td data-label="الحالة"><span class="badge ${badgeCls(t.status)}">${t.status}</span></td></tr>`).join("")
+    + `<tr><td data-label="الإجمالي" style="font-weight:700">الإجمالي</td><td></td><td></td>
+        <td data-label="المبلغ"><span class="amount in">${money(transTotal)}</span></td><td></td></tr>`;
+
+  document.getElementById("sensAllocBody").innerHTML=DATA.allocations.map(a=>
+    `<tr><td data-label="الجهة">${a.donor}</td><td data-label="المبلغ"><span class="amount" style="color:var(--warn)">${money(a.amount)}</span></td>
+      <td data-label="الغرض" style="color:var(--on-muted)">${a.purpose}</td><td data-label="المصدر" style="color:var(--on-muted)">${a.source}</td></tr>`).join("");
+
+  document.getElementById("sensTrustBody").innerHTML=
+    `<div class="stat-row"><span class="l">${DATA.meta.treasurer} — مستلم</span><span class="r pos">${money(treasurerReceived)}</span></div>
+     <div class="stat-row"><span class="l">${DATA.meta.treasurer} — مصروف</span><span class="r warn">${money(totalOut)}</span></div>
+     <div class="stat-row"><span class="l">${DATA.meta.treasurer} — متبقٍ</span><span class="r" style="color:${balance<0?'var(--neg)':'var(--pos)'}">${money(balance)}</span></div>`;
+}
+render();
+
+/* ---------- لوحة الإدارة / كلمة المرور ---------- */
+const modal=document.getElementById("modal"),pwInput=document.getElementById("pwInput"),
+      pwErr=document.getElementById("pwErr"),sensitive=document.getElementById("sensitive"),
+      adminBtn=document.getElementById("adminBtn");
+let unlocked=false;
+function openModal(){pwErr.textContent="";pwInput.value="";modal.classList.add("open");setTimeout(()=>pwInput.focus(),60);}
+function closeModal(){modal.classList.remove("open");}
+function setGroupsClickable(on){
+  document.querySelectorAll(".group-card").forEach(c=>{c.style.cursor=on?"pointer":"default";c.onclick=on?()=>c.classList.toggle("open"):null;});
+}
+adminBtn.addEventListener("click",()=>{
+  if(unlocked){
+    const open=sensitive.classList.toggle("open");
+    if(!open)document.querySelectorAll(".group-card").forEach(c=>c.classList.remove("open"));
+    setGroupsClickable(open);
+    adminBtn.innerHTML=open?"🙈 إخفاء بيانات الإدارة":"👁 العرض من خلال الإدارة";
+    if(open)sensitive.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+  }else openModal();
+});
+function tryUnlock(){
+  if(pwInput.value===String(DATA.meta.adminPassword)){
+    unlocked=true;closeModal();sensitive.classList.add("open");setGroupsClickable(true);
+    adminBtn.classList.add("locked");adminBtn.innerHTML="🙈 إخفاء بيانات الإدارة";
+    sensitive.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+  }else{pwErr.textContent="كلمة المرور غير صحيحة.";pwInput.value="";pwInput.focus();}
+}
+document.getElementById("confirmBtn").addEventListener("click",tryUnlock);
+document.getElementById("cancelBtn").addEventListener("click",closeModal);
+pwInput.addEventListener("keydown",e=>{if(e.key==="Enter")tryUnlock();});
+modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeModal();});
+</script>
+</body>
+</html>
