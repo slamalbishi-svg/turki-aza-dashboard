@@ -442,8 +442,17 @@ function renderCards(){
   document.getElementById("oAlloc").innerHTML=money(C.allocTotal);
   document.getElementById("oWait").innerHTML=money(C.recvWait);
   document.getElementById("oPaid").innerHTML=money(C.recvPaid);
-  document.getElementById("updatesList").innerHTML=D.updates.map(u=>
-    `<div class="up-item">${dayBadge(u.date)}<span class="up-text">${esc(u.text)}</span></div>`).join("");
+  document.getElementById("updatesList").innerHTML=D.updates.map((u,i)=>
+    `<div class="up-item">${dayBadge(u.date)}<span class="up-text">${esc(u.text)}</span>
+      ${unlocked?`<span style="margin-inline-start:auto;display:flex;gap:4px;flex-wrap:wrap">
+        <button class="iconbtn" data-act="up-up" data-i="${i}" style="padding:3px 7px">↑</button>
+        <button class="iconbtn" data-act="up-down" data-i="${i}" style="padding:3px 7px">↓</button>
+        <button class="iconbtn" data-act="up-edit" data-i="${i}" style="padding:3px 7px">✎</button>
+        <button class="iconbtn del" data-act="up-del" data-i="${i}" style="padding:3px 7px">🗑</button></span>`:""}
+    </div>
+    ${unlocked?`<div class="addform" data-formid="upedit-${i}">${field("اليوم/الوسم","date")}${field("نص التحديث","text")}${saveRow("save-up-edit","data-i="+i)}</div>`:""}`).join("")
+    + (unlocked?`<div class="mini-actions" style="margin-top:8px">${addBtn("upForm","إضافة تحديث")}</div>
+      <div class="addform" data-formid="upForm">${field("اليوم/الوسم (مثال: اليوم الرابع)","date")}${field("نص التحديث (قصير)","text")}${saveRow("save-up")}</div>`:"");
 }
 
 /* ====================== نماذج الإضافة (HTML) ====================== */
@@ -553,12 +562,21 @@ function renderContrib(c){
     if(isG){
       body=`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">
         ${c.members.map((m,i)=>`<div class="kv"><span class="k">${i+1}. ${esc(m.name)}${m.note?" — "+esc(m.note):""}</span>
-          <span class="v ${m.amount?'pos':''}">${m.amount?money(m.amount):"—"}</span></div>`).join("")}
-        <div class="mini-actions">${addBtn("mem-"+c.id,"إضافة مشارك")}<button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف المجموعة</button></div>
+          <span class="v ${m.amount?'pos':''}">${m.amount?money(m.amount):"—"}
+            <button class="iconbtn" data-act="edit-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 7px">✎</button>
+            <button class="iconbtn del" data-act="del-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 7px">🗑</button></span></div>
+          <div class="addform" data-formid="editmem-${c.id}-${i}">${field("اسم المشارك","name")}${field("المبلغ","amount","number")}${area("ملاحظات","note")}${saveRow("save-edit-mem","data-gid="+c.id+" data-mi="+i)}</div>`).join("")}
+        <div class="mini-actions">${addBtn("mem-"+c.id,"إضافة مشارك")}
+          <button class="iconbtn" data-act="edit-grp" data-id="${c.id}">✏️ تعديل المجموعة</button>
+          <button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف المجموعة</button></div>
+        <div class="addform" data-formid="editgrp-${c.id}">${field("اسم المجموعة","name")}${field("إجمالي المجموعة","total","number")}${saveRow("save-edit-grp","data-id="+c.id)}</div>
         <div class="addform" data-formid="mem-${c.id}">${field("اسم المشارك","name")}${field("المبلغ","amount","number")}${area("ملاحظات","notes")}${saveRow("save-mem","data-gid="+c.id)}</div>
       </div>`;
     } else {
-      body=`<div class="mini-actions" style="margin-top:8px"><button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف</button></div>`;
+      body=`<div class="mini-actions" style="margin-top:8px">
+          <button class="iconbtn" data-act="edit-ind" data-id="${c.id}">✏️ تعديل</button>
+          <button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف</button></div>
+        <div class="addform" data-formid="editind-${c.id}">${field("الاسم","name")}${field("المبلغ (اتركه فارغاً = غير محدد)","total","number")}${area("ملاحظات","note")}${saveRow("save-edit-ind","data-id="+c.id)}</div>`;
     }
   }
   return `<div class="card-box">${head}${body}</div>`;
@@ -725,7 +743,7 @@ document.getElementById("sheetClose").addEventListener("click",closeSheet);
 overlay.addEventListener("click",closeSheet);
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&openSheetId)closeSheet();});
 
-function readForm(formId){ const f=sheetBody.querySelector(`.addform[data-formid="${formId}"]`); if(!f)return{}; const o={};
+function readForm(formId, root){ const f=(root||sheetBody).querySelector(`.addform[data-formid="${formId}"]`); if(!f)return{}; const o={};
   f.querySelectorAll("[data-field]").forEach(el=>{ o[el.dataset.field]= el.type==="file" ? (el.files[0]||null) : el.value.trim(); }); return o; }
 
 sheetBody.addEventListener("click",e=>{
@@ -815,6 +833,16 @@ sheetBody.addEventListener("click",e=>{
     commit("إقفال التزام: "+(c.name||c.desc||"")); return; }
   if(act==="del-commit"){ if(confirm("حذف هذا الالتزام؟")){D.commitments=D.commitments.filter(x=>x.id!==t.dataset.id);commit("حذف التزام");} return; }
   if(act==="del-exp"){ if(confirm("حذف هذا المصروف؟")){const e=D.expenses.find(x=>x.id===t.dataset.id);D.expenses=D.expenses.filter(x=>x.id!==t.dataset.id);commit("حذف مصروف: "+(e?e.item:""));} return; }
+  if(act==="edit-grp"){ const f=sheetBody.querySelector(`.addform[data-formid="editgrp-${t.dataset.id}"]`); if(f){const c=D.contributions.find(x=>x.id===t.dataset.id); f.querySelector('[data-field=name]').value=c.name||""; f.querySelector('[data-field=total]').value=(c.total==null?"":c.total); f.classList.toggle("show");} return; }
+  if(act==="save-edit-grp"){ const id=t.dataset.id,o=readForm("editgrp-"+id),c=D.contributions.find(x=>x.id===id); if(c){ if(o.name)c.name=o.name; c.total=o.total===""?0:(+o.total||0);} commit("تعديل مجموعة: "+(c?c.name:"")); return; }
+  if(act==="edit-mem"){ const gid=t.dataset.gid,mi=+t.dataset.mi; const f=sheetBody.querySelector(`.addform[data-formid="editmem-${gid}-${mi}"]`); if(f){const g=D.contributions.find(x=>x.id===gid),m=g.members[mi]; f.querySelector('[data-field=name]').value=m.name||""; f.querySelector('[data-field=amount]').value=(m.amount==null?"":m.amount); f.querySelector('[data-field=note]').value=m.note||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-mem"){ const gid=t.dataset.gid,mi=+t.dataset.mi,o=readForm("editmem-"+gid+"-"+mi),g=D.contributions.find(x=>x.id===gid);
+    if(g&&g.members[mi]){ g.members[mi].name=o.name||g.members[mi].name; g.members[mi].amount=o.amount===""?null:(+o.amount||0); g.members[mi].note=o.note;
+      g.total=g.members.reduce((a,m)=>a+(+m.amount||0),0)||g.total; } commit("تعديل مشارك"); return; }
+  if(act==="del-mem"){ const gid=t.dataset.gid,mi=+t.dataset.mi; if(confirm("حذف هذا المشارك؟")){const g=D.contributions.find(x=>x.id===gid); if(g){g.members.splice(mi,1); const s=g.members.reduce((a,m)=>a+(+m.amount||0),0); if(s)g.total=s;} commit("حذف مشارك");} return; }
+  if(act==="edit-ind"){ const f=sheetBody.querySelector(`.addform[data-formid="editind-${t.dataset.id}"]`); if(f){const c=D.contributions.find(x=>x.id===t.dataset.id); f.querySelector('[data-field=name]').value=c.name||""; f.querySelector('[data-field=total]').value=(c.total==null?"":c.total); f.querySelector('[data-field=note]').value=c.note||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-ind"){ const id=t.dataset.id,o=readForm("editind-"+id),c=D.contributions.find(x=>x.id===id);
+    if(c){ if(o.name)c.name=o.name; c.note=o.note; if(o.total===""){c.total=null;c.status="بانتظار التحديد";} else {c.total=+o.total||0; delete c.status;} } commit("تعديل مشاركة فردية"); return; }
   if(act==="del-contrib"){ if(confirm("حذف هذا البند؟")){const c=D.contributions.find(x=>x.id===t.dataset.id);D.contributions=D.contributions.filter(x=>x.id!==t.dataset.id);commit("حذف مساهمة: "+(c?c.name:""));} return; }
   if(act==="del-recv"){ if(confirm("حذف المستحق؟")){D.receivables=D.receivables.filter(x=>x.id!==t.dataset.id);commit("حذف مستحق");} return; }
   if(act==="del-spo"){ if(confirm("حذف التكفل؟")){D.sponsorships=D.sponsorships.filter(x=>x.id!==t.dataset.id);commit("حذف تكفل");} return; }
@@ -830,13 +858,42 @@ sheetBody.addEventListener("change",e=>{
   commit("تغيير حالة إلى: "+val);
 });
 
+/* ====================== تحرير اللوحة الرئيسية (التحديثات + سجل النشاط) ====================== */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]"); if(!t)return;
+  const cont = t.closest("#updatesList") || t.closest("#actLog"); if(!cont)return;
+  const act=t.dataset.act, i=+t.dataset.i;
+  if(act==="toggle"){ const f=cont.querySelector(`.addform[data-formid="${t.dataset.form}"]`); if(f){f.classList.toggle("show"); const x=f.querySelector(".fld"); if(x)x.focus();} return; }
+  if(act==="cancelform"){ const f=t.closest(".addform"); if(f)f.classList.remove("show"); return; }
+  // آخر التحديثات
+  if(act==="up-up"){ if(i>0){ const a=D.updates; [a[i-1],a[i]]=[a[i],a[i-1]]; commit("تغيير ترتيب التحديثات");} return; }
+  if(act==="up-down"){ if(i<D.updates.length-1){ const a=D.updates; [a[i+1],a[i]]=[a[i],a[i+1]]; commit("تغيير ترتيب التحديثات");} return; }
+  if(act==="up-edit"){ const f=cont.querySelector(`.addform[data-formid="upedit-${i}"]`); if(f){f.querySelector('[data-field=date]').value=D.updates[i].date||""; f.querySelector('[data-field=text]').value=D.updates[i].text||""; f.classList.toggle("show");} return; }
+  if(act==="save-up-edit"){ const o=readForm("upedit-"+i,cont); if(D.updates[i]){D.updates[i].date=o.date;D.updates[i].text=o.text;} commit("تعديل تحديث"); return; }
+  if(act==="up-del"){ if(confirm("حذف هذا التحديث؟")){ D.updates.splice(i,1); commit("حذف تحديث"); } return; }
+  if(act==="save-up"){ const o=readForm("upForm",cont); if(!o.text){alert("أدخل نص التحديث");return;} D.updates.unshift({date:o.date||"تحديث",text:o.text}); commit("إضافة تحديث: "+o.text); return; }
+  // سجل النشاط
+  if(act==="ac-edit"){ const f=cont.querySelector(`.addform[data-formid="acedit-${i}"]`); if(f){const a=D.activity[i]; f.querySelector('[data-field=action]').value=a.action||""; f.querySelector('[data-field=who]').value=a.who||""; f.querySelector('[data-field=time]').value=a.time||""; f.classList.toggle("show");} return; }
+  if(act==="save-ac-edit"){ const o=readForm("acedit-"+i,cont); if(D.activity[i]){D.activity[i].action=o.action;D.activity[i].who=o.who||"الإدارة";D.activity[i].time=o.time;} saveState(); renderActivity(); return; }
+  if(act==="ac-del"){ if(confirm("حذف هذا البند من السجل؟")){ D.activity.splice(i,1); saveState(); renderActivity(); } return; }
+  if(act==="save-ac"){ const o=readForm("acForm",cont); if(!o.action){alert("أدخل نص العملية");return;} D.activity.unshift({who:o.who||"الإدارة",action:o.action,time:o.time||new Date().toLocaleString("ar-SA",{dateStyle:"short",timeStyle:"short"})}); saveState(); renderActivity(); return; }
+});
+
 /* ====================== لوحة الإدارة ====================== */
 const adminToggle=document.getElementById("adminToggle"),adminGate=document.getElementById("adminGate"),
       adminInput=document.getElementById("adminInput"),adminGo=document.getElementById("adminGo"),
       adminErr=document.getElementById("adminErr"),adminPanel=document.getElementById("adminPanel");
 function enterAdmin(){ unlocked=true; adminGate.classList.remove("show"); adminToggle.style.display="none"; adminPanel.style.display="block"; renderActivity(); }
 function renderActivity(){ const el=document.getElementById("actLog"); if(!el)return;
-  el.innerHTML = D.activity.length ? D.activity.map(a=>`<div class="ai"><div class="am">${esc(a.who)}: ${esc(a.action)}</div><div class="at">${esc(a.time)}</div></div>`).join("") : `<div class="note" style="text-align:center">لا يوجد نشاط بعد.</div>`; }
+  el.innerHTML = (D.activity.length ? D.activity.map((a,i)=>`<div class="ai"><div class="am">${esc(a.who)}: ${esc(a.action)}</div>
+      <div class="at">${esc(a.time)}
+        <button class="iconbtn" data-act="ac-edit" data-i="${i}" style="padding:2px 6px;margin-inline-start:6px">✎</button>
+        <button class="iconbtn del" data-act="ac-del" data-i="${i}" style="padding:2px 6px">🗑</button></div>
+      <div class="addform" data-formid="acedit-${i}">${field("نوع/نص العملية","action")}${field("من","who")}${field("التاريخ/الوقت","time")}${saveRow("save-ac-edit","data-i="+i)}</div></div>`).join("")
+      : `<div class="note" style="text-align:center">لا يوجد نشاط بعد.</div>`)
+    + `<div class="mini-actions" style="margin-top:8px">${addBtn("acForm","إضافة بند يدوي")}</div>
+      <div class="addform" data-formid="acForm">${field("نوع/نص العملية","action")}${field("من (اختياري)","who")}${field("التاريخ/الوقت (اختياري)","time")}${saveRow("save-ac")}</div>`;
+}
 adminToggle.addEventListener("click",()=>{ adminGate.classList.add("show"); adminInput.focus(); });
 function adminSubmit(){ if(adminInput.value===String(D.meta.adminPassword)){ enterAdmin(); if(openSheetId)renderSheet(); } else { adminErr.textContent="كلمة المرور غير صحيحة"; adminInput.value=""; adminInput.focus(); } }
 adminGo.addEventListener("click",adminSubmit);
