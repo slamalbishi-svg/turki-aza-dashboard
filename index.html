@@ -281,8 +281,9 @@ const RIYAL = `<svg class="rs" viewBox="0 0 24 24" fill="currentColor" aria-labe
 
 /* ============================================================
    ربط المرفقات مع Google Drive عبر Google Apps Script
-   ⬇⬇⬇ ضع رابط نشر الـ Web App هنا لاحقاً (بين علامتي التنصيص) ⬇⬇⬇
-   مثال: https://script.google.com/macros/s/AKfycbx....../exec
+   الرابط النهائي المعتمد للـ Web App مُثبّت في الثابت أدناه DRIVE_API_URL،
+   وهو الرابط الوحيد المستخدم في كل دوال المرفقات (apiPost / uploadToDrive /
+   listFromDrive / deleteFromDrive). لا يوجد أي رابط آخر في هذا الملف.
    ============================================================ */
 const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbx4BrDwPsfj2ZBbfSrokzyMSFl5gSizq6Sk4ECiL818YYl_cz-D4us5C8peV7B_xx4CWQ/exec";
 
@@ -1134,6 +1135,7 @@ async function runUpload(kind, id){
   const fileEl=f.querySelector('input[type=file]'); const file=fileEl&&fileEl.files[0];
   const note=(f.querySelector('[data-field=note]')&&f.querySelector('[data-field=note]').value||"").trim();
   if(!file){ alert("اختر ملفاً أولاً"); return; }
+  console.log("Using Drive API:", DRIVE_API_URL);
   const prog=f.querySelector('.up-progress'), bar=f.querySelector('.up-bar span'), pct=f.querySelector('.up-pct'), msg=f.querySelector('.up-msg');
   const btn=f.querySelector('[data-act="do-upload"]');
   if(prog)prog.classList.add("show"); if(bar)bar.style.width="0%"; if(pct)pct.textContent="0%";
