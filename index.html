@@ -44,12 +44,13 @@ body.lock{overflow:hidden;}
   border:1px solid var(--line-2);border-radius:13px;padding:10px 14px;margin:0 0 16px;line-height:1.7;}
 
 .cards{display:flex;flex-direction:column;gap:14px;}
-.mcard{appearance:none;font-family:var(--font);text-align:right;cursor:pointer;width:100%;background:var(--card);border:none;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:13px;transition:transform .15s ease;}
+.mcard{appearance:none;font-family:var(--font);text-align:right;cursor:pointer;width:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:13px;transition:transform .15s ease;}
 .mcard:active{transform:scale(.99);}
 .mc-top{display:flex;align-items:center;gap:12px;}
 .mc-ic{width:46px;height:46px;border-radius:14px;flex:none;display:grid;place-items:center;background:rgba(10,62,62,0.07);color:var(--ink);}
 .mc-ic svg{width:25px;height:25px;}
 .mc-title{font-size:17px;font-weight:800;flex:1;}
+.mc-title.mc-tbadge{flex:0 1 auto;margin-inline-end:auto;display:inline-block;background:var(--ink);color:#fff;padding:6px 14px;border-radius:999px;font-size:15px;font-weight:800;box-shadow:0 2px 6px rgba(10,62,62,0.22);}
 .mc-stat{font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap;}
 .mc-stat.pos{color:var(--pos);background:rgba(14,143,111,0.10);}
 .mc-stat.neg{color:var(--neg);background:rgba(214,69,69,0.10);}
@@ -77,7 +78,7 @@ body.lock{overflow:hidden;}
 .mc-main .k{font-size:12.5px;color:var(--ink-soft);}
 
 .section-t{font-size:15px;font-weight:800;margin:24px 4px 11px;}
-.panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;}
 .up-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-2);}
 .up-item:last-child{border-bottom:none;}
 .up-date{font-size:10.5px;color:var(--pos);background:rgba(14,143,111,0.09);border:1px solid rgba(14,143,111,0.2);border-radius:8px;padding:4px 8px;height:fit-content;white-space:nowrap;flex:none;}
@@ -139,6 +140,13 @@ body.lock{overflow:hidden;}
 .chip .d{width:6px;height:6px;border-radius:50%;background:var(--pos);flex:none;}
 .att-chip{font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:9px;padding:6px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
 .att-chip.on{color:var(--pos);border-color:rgba(14,143,111,0.3);}
+.up-progress{display:none;align-items:center;gap:8px;margin:4px 0;}
+.up-progress.show{display:flex;}
+.up-bar{flex:1;height:8px;border-radius:999px;background:rgba(10,62,62,0.10);overflow:hidden;}
+.up-bar span{display:block;height:100%;width:0%;background:var(--pos);transition:width .2s ease;}
+.up-pct{font-size:11px;font-weight:700;color:var(--pos);min-width:34px;text-align:left;}
+.up-msg{font-size:12px;font-weight:600;min-height:14px;color:var(--ink-soft);}
+.up-msg.err{color:var(--neg);} .up-msg.ok{color:var(--pos);}
 .bank-img{margin-top:10px;border:1px dashed var(--line);border-radius:13px;padding:16px;text-align:center;color:var(--ink-faint);font-size:12.5px;}
 .bank-img img{max-width:100%;border-radius:10px;}
 
@@ -172,31 +180,31 @@ textarea.fld{resize:vertical;min-height:54px;}
   <div class="header">
     <div class="h-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h4"/></svg></div>
     <div class="h-txt">
-      <div class="t1">منصة متابعة عزاء تركي البيشي</div>
-      <div class="t2">توثيق • شفافية • متابعة</div>
+      <div class="t1" id="hTitle">منصة متابعة عزاء تركي البيشي</div>
+      <div class="t2" id="hTag">توثيق • شفافية • متابعة</div>
     </div>
     <div class="h-upd"><b>آخر تحديث</b><span id="updStamp">—</span></div>
   </div>
-  <div class="header-dua">اللهم اغفر لعبدك تركي بن فهد البيشي وارحمه رحمة واسعة</div>
+  <div class="header-dua" id="hDua">اللهم اغفر لعبدك تركي بن فهد البيشي وارحمه رحمة واسعة</div>
 
   <div class="cards">
     <button class="mcard" data-sheet="financial">
       <div class="mc-top">
         <div class="mc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M16 14.5h2"/></svg></div>
-        <div class="mc-title">الحالة المالية</div><span class="mc-arrow">‹</span>
+        <div class="mc-title mc-tbadge" id="ttF">الحالة المالية</div><span class="mc-arrow">‹</span>
       </div>
       <div class="mc-row2">
-        <div class="mstat"><div class="k">إجمالي الوارد</div><div class="v pos" id="cIn">—</div></div>
-        <div class="mstat"><div class="k">إجمالي المصروف</div><div class="v warn" id="cOut">—</div></div>
+        <div class="mstat"><div class="k">وصل عن طريق سليمان</div><div class="v pos" id="cIn">—</div></div>
+        <div class="mstat"><div class="k">إجمالي المصروفات</div><div class="v warn" id="cOut">—</div></div>
       </div>
-      <div class="mc-balance"><div class="bl">الرصيد الحالي</div><div class="bv neg" id="cBal">—</div></div>
-      <div class="mc-foot"><span class="mc-stat neg" id="cState">—</span></div>
+      <div class="mc-balance"><div class="bl">المتبقي للسداد</div><div class="bv neg" id="cBal">—</div></div>
+      <div class="mc-foot"><span class="mc-stat pos" id="cPaid">—</span><span class="mc-stat neg" id="cState" style="margin-inline-start:8px">—</span></div>
     </button>
 
     <button class="mcard" data-sheet="contributors">
       <div class="mc-top">
         <div class="mc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6a3 3 0 0 1 0 5"/><path d="M17.5 19a5.5 5.5 0 0 0-3-4.9"/></svg></div>
-        <div class="mc-title">المساهمون في مصاريف العزاء</div><span class="mc-stat pos">موثّقة</span>
+        <div class="mc-title mc-tbadge" id="ttC">المساهمون في مصاريف العزاء</div><span class="mc-stat pos">موثّقة</span>
       </div>
       <div class="mgrid g3">
         <div class="mg"><div class="v" id="cGroups">—</div><div class="k">مجموعات</div></div>
@@ -208,7 +216,7 @@ textarea.fld{resize:vertical;min-height:54px;}
     <button class="mcard" data-sheet="obligations">
       <div class="mc-top">
         <div class="mc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3.5"/></svg></div>
-        <div class="mc-title">الالتزامات والمتابعة</div><span class="mc-stat warn">متابعة</span>
+        <div class="mc-title mc-tbadge" id="ttO">الالتزامات والمتابعة</div><span class="mc-stat warn">متابعة</span>
       </div>
       <div class="mc-main"><div class="v warn" id="oRecv">—</div><div class="k">المستحقات</div></div>
       <div class="mgrid">
@@ -235,6 +243,17 @@ textarea.fld{resize:vertical;min-height:54px;}
     </div>
     <div id="adminPanel" style="display:none">
       <div class="gate-ok">🔓 وضع الإدارة مُفعّل — افتح أي بطاقة للإضافة والتعديل.</div>
+      <div class="section-t" style="text-align:right">تحرير النصوص والعناوين</div>
+      <div class="panel" id="textsPanel" style="box-shadow:none;border:1px solid var(--line);padding:12px 14px;text-align:right">
+        <div class="fld-lab">عنوان المنصة</div><input class="fld" id="txTitle">
+        <div class="fld-lab">الدعاء</div><input class="fld" id="txDua">
+        <div class="fld-lab">الشعار (توثيق • شفافية • متابعة)</div><input class="fld" id="txTag">
+        <div class="fld-lab">آخر تحديث</div><input class="fld" id="txUpd">
+        <div class="fld-lab">عنوان بطاقة 1</div><input class="fld" id="txCF">
+        <div class="fld-lab">عنوان بطاقة 2</div><input class="fld" id="txCC">
+        <div class="fld-lab">عنوان بطاقة 3</div><input class="fld" id="txCO">
+        <button class="btn btn-pos full" id="saveTexts" style="margin-top:10px">حفظ النصوص</button>
+      </div>
       <div class="section-t" style="text-align:right">سجل النشاط</div>
       <div class="panel actlog" id="actLog" style="box-shadow:none;border:1px solid var(--line);padding:12px 14px"></div>
       <div class="saverow" style="margin-top:12px">
@@ -260,9 +279,73 @@ textarea.fld{resize:vertical;min-height:54px;}
 /* ====================== رمز الريال السعودي (يمكن استبداله بالرسم الرسمي) ====================== */
 const RIYAL = `<svg class="rs" viewBox="0 0 24 24" fill="currentColor" aria-label="ريال"><path d="M13.7 3.2l-2 1.05v7.79l-2.5.6V5.3l-2 1.05v7.78l-2.7.64v2.05l2.7-.64v2.27l-2.7.64v2.05l7.2-1.72c2.6-.62 4.1-2.0 4.1-4.27v-.6l1.9-.45v-2.05l-1.9.45v-2.2l1.9-.45V8.34l-1.9.45V3.2zm0 9.9v.42c0 1.2-.7 1.86-2 2.18v-2.0l2-.6zm-4.5 3.66l2.5-.6v.02c0 .02 0 .03-.01.05l-2.49.59v-.06z"/></svg>`;
 
+/* ============================================================
+   ربط المرفقات مع Google Drive عبر Google Apps Script
+   ⬇⬇⬇ ضع رابط نشر الـ Web App هنا لاحقاً (بين علامتي التنصيص) ⬇⬇⬇
+   مثال: https://script.google.com/macros/s/AKfycbx....../exec
+   ============================================================ */
+const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbx4BrDwPsfj2ZBbfSrokzyMSFl5gSizq6Sk4ECiL818YYl_cz-D4us5C8peV7B_xx4CWQ/exec";
+
+/* ⚠️ ملاحظة مهمة للاختبار:
+   رفع المرفقات يعمل فقط عندما تكون الصفحة منشورة على رابط https (مثل GitHub Pages).
+   إذا فتحت الملف محلياً عبر file:///… فلن يسمح المتصفح بالاتصال (الأصل = null) وسيظهر
+   "فشل الاتصال بالخادم". الاختبار النهائي يجب أن يكون من رابط GitHub Pages. */
+
+/* نرسل الطلب كنص (text/plain) دون أي headers معقدة، حتى لا يُطلب preflight (CORS)
+   وهو الأسلوب المتوافق مع Google Apps Script Web App. */
+async function apiPost(payload){
+  if(!DRIVE_API_URL) throw new Error("لم يتم ضبط رابط الـ API (DRIVE_API_URL) بعد.");
+  let res;
+  try{ res = await fetch(DRIVE_API_URL, { method:"POST", body: JSON.stringify(payload), redirect:"follow" }); }
+  catch(e){ throw new Error(location.protocol==="file:" ? "افتح الصفحة من رابط GitHub Pages (لا تعمل المرفقات محلياً)" : "فشل الاتصال بالخادم"); }
+  const text = await res.text();
+  let r; try{ r = JSON.parse(text); }catch(_){ throw new Error("رد غير متوقع من الخادم"); }
+  if(r && r.success===false) throw new Error(r.error||r.message||"فشل من الخادم");
+  return r;
+}
+/* رفع ملف إلى Drive عبر Apps Script. onProgress تقريبي (fetch لا يوفّر نسبة دقيقة). */
+function uploadToDrive(file, meta, onProgress){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=async()=>{
+      const base64=String(reader.result).split(",")[1]||"";
+      if(onProgress) onProgress(60);
+      try{
+        const r=await apiPost({ action:"upload", section:meta.section||"", itemId:meta.itemId||"",
+          fileName:file.name, mimeType:file.type||"application/octet-stream", fileBase64:base64, note:meta.note||"" });
+        if(r && (r.url||r.fileUrl||r.webViewLink)){ if(onProgress)onProgress(100); resolve(normalizeAtt(r,file)); }
+        else reject(new Error(r&&(r.error||r.message)?(r.error||r.message):"رد غير متوقع من الخادم"));
+      }catch(e){ reject(e); }
+    };
+    reader.onerror=()=>reject(new Error("تعذّر قراءة الملف"));
+    reader.readAsDataURL(file);
+  });
+}
+/* توحيد شكل بيانات المرفق القادمة من الخادم */
+function normalizeAtt(r,file){
+  return { name:r.fileName||r.name||(file&&file.name)||"مرفق",
+           url:r.url||r.fileUrl||r.webViewLink||null,
+           fileId:r.fileId||r.id||null,
+           type:r.mimeType||(file&&file.type)||"",
+           date:r.date||r.uploadedAt||new Date().toISOString() };
+}
+/* استرجاع مرفقات بند من Drive عبر action:list */
+async function listFromDrive(section,itemId){
+  try{ const r=await apiPost({action:"list", section, itemId});
+    const files=r.files||r.attachments||r.items||(Array.isArray(r)?r:[]);
+    return files.map(f=>normalizeAtt(f,null));
+  }catch(_){ return null; }
+}
+async function deleteFromDrive(fileId){
+  if(!fileId) return false;
+  try{ await apiPost({action:"delete", fileId}); return true; }catch(_){ return false; }
+}
+function sectionLabel(k){ return {exp:"المصروفات",undet:"المصروفات غير الموضحة",recv:"المستحقات",trf:"التحويلات",contrib:"المساهمات",spo:"التكفلات",alloc:"المبالغ المخصصة",camp:"الذبائح",upd:"آخر التحديثات",act:"سجل النشاط",commit:"الالتزامات"}[k]||k; }
+function itemLabel(k,id){ const a=arrFor(k); const it=a&&a.find(x=>x.id===id); if(!it)return String(id); return it.item||it.person||it.name||it.reason||it.day||it.text||it.action||String(id); }
+
 /* ====================== البيانات الأولية (Seed) ====================== */
 const SEED = {
-  meta:{ treasurer:"موسى فهد البيشي", lastUpdate:"اليوم الرابع — الاثنين ٧ محرم ١٤٤٨هـ", adminPassword:"5070" },
+  meta:{ treasurer:"موسى فهد البيشي", lastUpdate:"اليوم الرابع — الخميس ١٠ محرم — عاشوراء", adminPassword:"5070" },
   contributions:[
     {id:"c1", type:"group", name:"المجموعة الأولى (آل سياف)", total:1300, members:[
       {name:"حيدر بن فايز آل عجيم"},{name:"عبدالرحمن بن حيدر آل عجيم"},{name:"محمد بن حيدر آل عجيم"},
@@ -279,7 +362,7 @@ const SEED = {
       {name:"عيال عبيد بن علي", amount:800},{name:"علي آل جبر", amount:500},{name:"عبادي آل قنوان", amount:300} ], attachments:[]},
     {id:"c5",  type:"individual", name:"روق القحطاني", total:1000, attachments:[]},
     {id:"c6",  type:"individual", name:"عيسى القرني", total:350, attachments:[]},
-    {id:"c7",  type:"individual", name:"عبدالله السلامة", total:0, status:"بانتظار التحديد", attachments:[]},
+    {id:"c7",  type:"individual", name:"عبدالله السلامة", total:1000, attachments:[]},
     {id:"c8",  type:"individual", name:"ناصر بن سعد نسيبنا", total:500, attachments:[]},
     {id:"c9",  type:"individual", name:"ناصر بن سعد بن ناصر", total:200, attachments:[]},
     {id:"c10", type:"individual", name:"أبو بدر الغثيلي وإخوانه", total:2500, note:"يشمل 500 مخصصة للمياه", attachments:[]},
@@ -287,7 +370,11 @@ const SEED = {
     {id:"c12", type:"individual", name:"محمد بن فهد أخوي", total:1200, attachments:[]},
     {id:"c13", type:"individual", name:"إبراهيم الدوسري نسيب موسى", total:1000, attachments:[]},
     {id:"c14", type:"individual", name:"مفرح بن عمير", total:500, attachments:[]},
-    {id:"c15", type:"individual", name:"فيصل الدوخي", total:500, attachments:[]}
+    {id:"c15", type:"individual", name:"فيصل الدوخي", total:500, attachments:[]},
+    {id:"c16", type:"individual", name:"أبو بكر الشهري", total:1300, attachments:[]},
+    {id:"c17", type:"individual", name:"الجبرين", total:1000, attachments:[]},
+    {id:"c18", type:"individual", name:"مشاري الجويرة", total:2000, attachments:[]},
+    {id:"c19", type:"individual", name:"عبدالرحمن حندله", total:2000, attachments:[]}
   ],
   expenses:[
     {id:"EXP-0001", item:"مقاضي وتجهيزات أولية (ما قبل العزاء)", category:"مقاضي", amount:500, date:"", notes:"", status:"مدفوع", attachments:[]},
@@ -337,12 +424,50 @@ function saveState(){ try{localStorage.setItem(KEY, JSON.stringify(D));}catch(e)
 let D = loadState() || JSON.parse(JSON.stringify(SEED));
 D.undetailed = D.undetailed || [];
 D.commitments = D.commitments || [];
+// تحديث آخر تحديث للنسخة الحالية (قابل للتعديل لاحقاً من الإدارة)
+if(!D.meta) D.meta={}; if(!D.meta.adminPassword) D.meta.adminPassword="5070";
+if(!D.meta.lastUpdateEdited) D.meta.lastUpdate = SEED.meta.lastUpdate;
+// نصوص عامة قابلة للتحرير
+D.texts = D.texts || {};
+D.texts.title = D.texts.title || "منصة متابعة عزاء تركي البيشي";
+D.texts.dua = D.texts.dua || "اللهم اغفر لعبدك تركي بن فهد البيشي وارحمه رحمة واسعة";
+D.texts.tagline = D.texts.tagline || "توثيق • شفافية • متابعة";
+D.texts.cardFinancial = D.texts.cardFinancial || "الحالة المالية";
+D.texts.cardContrib = D.texts.cardContrib || "المساهمون في مصاريف العزاء";
+D.texts.cardOblig = D.texts.cardOblig || "الالتزامات والمتابعة";
+D.meta.recvStatuses = D.meta.recvStatuses || ["بانتظار السداد","بانتظار التحديد","تم السداد","تم السداد بواسطة شخص آخر","تم التحويل","تم الاستلام","تم الإلغاء"];
+// الملخص المالي المعتمد (ظاهر في الداشبورد وقابل للتعديل من الإدارة)
+D.fin = D.fin || {};
+if(D.fin.viaSuleiman==null) D.fin.viaSuleiman = 15200;   // المبلغ الذي وصل عن طريق سليمان
+if(D.fin.totalExpenses==null) D.fin.totalExpenses = 23000; // إجمالي المصروفات
+if(D.fin.paid==null) D.fin.paid = 14300;                  // المسدد
+if(D.fin.remaining==null) D.fin.remaining = 8700;          // المتبقي
+// تطبيق تحديث المساهمات المعتمد (مرة واحدة)
+if(!D.meta.contribV20){
+  const byName=n=>D.contributions.find(c=>c.name===n);
+  const sal=byName("عبدالله السلامة"); if(sal){ sal.total=1000; delete sal.status; }
+  [["أبو بكر الشهري",1300],["الجبرين",1000],["مشاري الجويرة",2000],["عبدالرحمن حندله",2000]].forEach(([n,v])=>{
+    const ex=byName(n); if(ex){ ex.total=v; delete ex.status; } else D.contributions.push({id:"c"+Math.random().toString(36).slice(2,7),type:"individual",name:n,total:v,attachments:[]});
+  });
+  D.meta.contribV20=true;
+}
+// ضمان معرّف ومصفوفة مرفقات لكل عنصر قابل للإرفاق
+(function migrateAtt(){
+  const gen=p=>p+Math.random().toString(36).slice(2,8);
+  const ensure=(arr,p)=>{ (arr||[]).forEach(x=>{ if(x&&typeof x==="object"){ x.id=x.id||gen(p); x.attachments=x.attachments||[]; } }); };
+  ensure(D.expenses,"e"); ensure(D.undetailed,"u"); ensure(D.commitments,"k");
+  ensure(D.receivables,"r"); ensure(D.transfers,"t"); ensure(D.contributions,"c");
+  ensure(D.sponsorships,"s"); ensure(D.allocations,"a");
+  if(D.camp&&D.camp.records) ensure(D.camp.records,"cr");
+  ensure(D.updates,"up"); ensure(D.activity,"ac");
+})();
 
 /* ====================== أدوات ====================== */
 const fmt=n=>Number(n||0).toLocaleString("en-US",{minimumFractionDigits:(Math.abs(n%1)>0?2:0),maximumFractionDigits:2});
 const money=n=>`<span class="amt">${fmt(n)}${RIYAL}</span>`;
 const reduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const uid=p=>p+Math.random().toString(36).slice(2,8);
+function moveById(arr,id,dir){ if(!arr)return; const i=arr.findIndex(x=>x.id===id); const j=i+dir; if(i<0||j<0||j>=arr.length)return; const it=arr.splice(i,1)[0]; arr.splice(j,0,it); }
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* ترميز اسم المساهم في العرض العام: أول حرف*** + أول حرف العائلة*** + اللواحق + 🔒
@@ -379,8 +504,8 @@ const ST1={ recv:["بانتظار السداد","بانتظار التحديد",
             commit:["بانتظار تحديد المبلغ","بانتظار السداد","تم السداد","تم التحويل","تم الاستلام","تم الإقفال","ملغي"],
             undet:["غير موضح","تم التوضيح جزئياً","تم التوضيح بالكامل"],
             spo:["بانتظار التأكيد","مؤكد","ملغي"] };
-function badgeCls(s){ if(["مدفوع","مكتمل","تم السداد","تم التسليم","تم الاستلام","مؤكد"].includes(s))return"ok";
-  if(s==="ملغي")return"cancel"; return"wait"; }
+function badgeCls(s){ if(["مدفوع","مكتمل","تم السداد","تم السداد بواسطة شخص آخر","تم التسليم","تم الاستلام","مؤكد"].includes(s))return"ok";
+  if(s==="ملغي"||s==="تم الإلغاء")return"cancel"; return"wait"; }
 
 let C={};
 function undetClarified(u){ return (u.clarifications||[]).reduce((a,c)=>a+(+c.amount||0),0); }
@@ -404,10 +529,10 @@ function recompute(){
   C.members = D.contributions.reduce((a,c)=> a + (c.type==="group" ? (c.members?c.members.length:0) : 1), 0);
   C.transTotal = D.transfers.filter(t=>t.status!=="ملغي").reduce((a,t)=>a+(+t.amount||0),0);
   C.allocTotal = D.allocations.reduce((a,x)=>a+(+x.amount||0),0);
-  const act=D.receivables.filter(r=>r.status!=="ملغي");
+  const act=D.receivables.filter(r=>r.status!=="ملغي"&&r.status!=="تم الإلغاء");
   C.recvTotal = act.reduce((a,r)=>a+(+r.amount||0),0);
   C.recvWait = D.receivables.filter(r=>r.status==="بانتظار السداد").reduce((a,r)=>a+(+r.amount||0),0);
-  C.recvPaid = D.receivables.filter(r=>r.status==="تم السداد").reduce((a,r)=>a+(+r.amount||0),0);
+  C.recvPaid = D.receivables.filter(r=>r.status==="تم السداد"||r.status==="تم السداد بواسطة شخص آخر").reduce((a,r)=>a+(+r.amount||0),0);
   C.spons = D.sponsorships.length;
   // مؤشرات الالتزامات غير المحددة
   const openC=D.commitments.filter(c=>!c.closed);
@@ -429,11 +554,15 @@ function commit(action){ if(action)logAct(action); recompute(); saveState(); ren
 /* ====================== البطاقات ====================== */
 function renderCards(){
   document.getElementById("updStamp").textContent=D.meta.lastUpdate;
-  const st = C.balance>0?{c:"pos",l:"🟢 فائض"}:C.balance<0?{c:"neg",l:"🔴 عجز"}:{c:"warn",l:"🟠 توازن"};
-  document.getElementById("cIn").innerHTML=money(C.totalIn);
-  document.getElementById("cOut").innerHTML=money(C.totalOut);
-  const b=document.getElementById("cBal"); b.className="bv "+st.c; b.innerHTML=money(C.balance);
-  const s=document.getElementById("cState"); s.className="mc-stat "+st.c; s.textContent=st.l;
+  const setT=(id,v)=>{const el=document.getElementById(id); if(el)el.textContent=v;};
+  setT("hTitle",D.texts.title); setT("hTag",D.texts.tagline); setT("hDua",D.texts.dua);
+  setT("ttF","1️⃣ "+D.texts.cardFinancial); setT("ttC","2️⃣ "+D.texts.cardContrib); setT("ttO","3️⃣ "+D.texts.cardOblig);
+  const remaining = +D.fin.remaining||0;
+  document.getElementById("cIn").innerHTML=money(D.fin.viaSuleiman);
+  document.getElementById("cOut").innerHTML=money(D.fin.totalExpenses);
+  const b=document.getElementById("cBal"); b.className="bv "+(remaining>0?"neg":"pos"); b.innerHTML=money(remaining);
+  const paidEl=document.getElementById("cPaid"); if(paidEl){paidEl.className="mc-stat pos"; paidEl.innerHTML="المسدد: "+money(D.fin.paid);}
+  const s=document.getElementById("cState"); const st=remaining>0?{c:"neg",l:"🔴 يتبقّى للسداد"}:{c:"pos",l:"🟢 مكتمل"}; s.className="mc-stat "+st.c; s.textContent=st.l;
   document.getElementById("cGroups").textContent=C.groups;
   document.getElementById("cMembers").textContent=C.members;
   document.getElementById("cContribTot").innerHTML=money(C.totalIn);
@@ -450,7 +579,7 @@ function renderCards(){
         <button class="iconbtn" data-act="up-edit" data-i="${i}" style="padding:3px 7px">✎</button>
         <button class="iconbtn del" data-act="up-del" data-i="${i}" style="padding:3px 7px">🗑</button></span>`:""}
     </div>
-    ${unlocked?`<div class="addform" data-formid="upedit-${i}">${field("اليوم/الوسم","date")}${field("نص التحديث","text")}${saveRow("save-up-edit","data-i="+i)}</div>`:""}`).join("")
+    ${unlocked?`<div class="addform" data-formid="upedit-${i}">${field("اليوم/الوسم","date")}${field("نص التحديث","text")}${saveRow("save-up-edit","data-i="+i)}</div>${attachBlock("upd",u.id,u.attachments)}`:""}`).join("")
     + (unlocked?`<div class="mini-actions" style="margin-top:8px">${addBtn("upForm","إضافة تحديث")}</div>
       <div class="addform" data-formid="upForm">${field("اليوم/الوسم (مثال: اليوم الرابع)","date")}${field("نص التحديث (قصير)","text")}${saveRow("save-up")}</div>`:"");
 }
@@ -467,8 +596,8 @@ function sheetFinancial(){
   let forms = unlocked ? `
     <div class="addform" data-formid="expForm">
       ${field("اسم المصروف","name")}${field("التصنيف","category")}${field("المبلغ","amount","number")}
-      ${field("التاريخ","date","date")}${area("ملاحظات","notes")}${field("رابط Google Drive","drive")}
-      <div class="fld-lab">رفع صورة / فاتورة</div><input class="fld" data-field="file" type="file" accept="image/*,application/pdf">
+      ${field("التاريخ","date","date")}${area("ملاحظات","notes")}
+      <div class="note">يمكنك إرفاق الفاتورة بعد الحفظ عبر زر «📎 إضافة مرفق».</div>
       ${saveRow("save-exp")}</div>
     <div class="addform" data-formid="incForm">
       ${field("اسم الجهة","entity")}${field("اسم الشخص","person")}${field("المبلغ","amount","number")}
@@ -484,35 +613,33 @@ function sheetFinancial(){
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
         <span class="badge ${badgeCls(e.status)}">${esc(e.status)}</span>
-        ${n?`<span class="att-chip on">📎 عدد المرفقات: ${n}</span>`:`<span class="att-chip">لا توجد مرفقات بعد</span>`}
       </div>
-      <div class="mini-actions">
-        <button class="iconbtn" data-act="attach" data-id="${e.id}">➕ إرفاق</button>
-        ${n?`<button class="iconbtn" data-act="toggle" data-form="view-exp-${e.id}">👁 عرض المرفقات</button>`:""}
-        ${unlocked?`<button class="iconbtn" data-act="edit-exp" data-id="${e.id}">✎ تعديل</button>
-          <button class="iconbtn del" data-act="del-exp" data-id="${e.id}">🗑 حذف</button>`:""}
-      </div>
-      ${n?`<div class="addform" data-formid="view-exp-${e.id}" style="background:var(--page)">${attView(e.attachments)}</div>`:""}
-      ${unlocked?`<div class="addform" data-formid="edit-exp-${e.id}">
-        ${field("اسم المصروف","item")}${field("التصنيف","category")}${field("المبلغ","amount","number")}
-        ${field("التاريخ","date","date")}${selectF("الحالة","status",ST1.exp)}${area("ملاحظات","notes")}
-        ${saveRow("save-edit-exp","data-id="+e.id)}</div>`:""}
-      <div class="addform" data-formid="att-exp-${e.id}">
-        <div class="fld-lab">رفع صورة أو PDF من الجوال</div>
-        <input class="fld" data-field="file" type="file" accept="image/*,application/pdf">
-        ${field("رابط Google Drive","drive")}${field("وصف مختصر للمرفق","desc")}
-        ${saveRow("save-att","data-id="+e.id)}
-      </div>
+      ${unlocked?`<div class="mini-actions">
+          <button class="iconbtn" data-act="edit-exp" data-id="${e.id}">✎ تعديل</button>
+          <button class="iconbtn del" data-act="del-exp" data-id="${e.id}">🗑 حذف</button></div>
+        <div class="addform" data-formid="edit-exp-${e.id}">
+          ${field("اسم المصروف","item")}${field("التصنيف","category")}${field("المبلغ","amount","number")}
+          ${field("التاريخ","date","date")}${selectF("الحالة","status",ST1.exp)}${area("ملاحظات","notes")}
+          ${saveRow("save-edit-exp","data-id="+e.id)}</div>`:""}
+      ${attachBlock("exp",e.id,e.attachments)}
     </div>`;}).join("");
   const editBar = unlocked
     ? `<div class="adminbar">${addBtn("expForm","إضافة مصروف")}${addBtn("incForm","إضافة إيراد")}</div>`
     : `<button class="btn btn-soft full" data-act="local-admin" style="margin:4px 0 6px">🔒 تعديل / إدارة الحالة المالية</button>`;
-  return `<div class="tot"><span class="l">الرصيد الحالي</span><span class="r ${C.balance<0?'neg':'pos'}">${money(C.balance)}</span></div>
+  const finSummary = `<div class="card-box">
+      <div class="kv"><span class="k">وصل عن طريق سليمان</span><span class="v pos">${money(D.fin.viaSuleiman)}</span></div>
+      <div class="kv"><span class="k">إجمالي المصروفات</span><span class="v" style="color:var(--warn)">${money(D.fin.totalExpenses)}</span></div>
+      <div class="kv"><span class="k">المسدد</span><span class="v pos">${money(D.fin.paid)}</span></div>
+      <div class="kv"><span class="k">المتبقي</span><span class="v" style="color:var(--neg);font-weight:800">${money(D.fin.remaining)}</span></div>
+      ${unlocked?`<div class="mini-actions"><button class="iconbtn" data-act="edit-fin">✏️ تعديل الأرقام المعتمدة</button></div>
+        <div class="addform" data-formid="finForm">${field("وصل عن طريق سليمان","viaSuleiman","number")}${field("إجمالي المصروفات","totalExpenses","number")}${field("المسدد","paid","number")}${field("المتبقي (فارغ = يُحسب تلقائياً)","remaining","number")}${saveRow("save-fin")}</div>`:""}
+    </div>`;
+  return `${finSummary}
     ${editBar}${forms}
-    <div class="blk" style="margin-top:14px"><div class="blk-t">العمليات والمصروفات</div>${rows}
+    <div class="blk" style="margin-top:14px"><div class="blk-t">سجل العمليات والمصروفات</div>${rows}
       <div class="card-box" style="text-align:center;color:var(--ink-faint);font-size:13px">المصروفات المستقبلية — تُضاف هنا</div></div>
     ${undetailedBlock()}
-    <div class="tot"><span class="l">إجمالي المصروفات</span><span class="r warn">${money(C.totalOut)}</span></div>`;
+    <div class="tot"><span class="l">مجموع العمليات المسجّلة</span><span class="r warn">${money(C.totalOut)}</span></div>`;
 }
 
 function undetailedBlock(){
@@ -563,11 +690,15 @@ function renderContrib(c){
       body=`<div style="margin-top:10px;border-top:1px solid var(--line);padding-top:8px">
         ${c.members.map((m,i)=>`<div class="kv"><span class="k">${i+1}. ${esc(m.name)}${m.note?" — "+esc(m.note):""}</span>
           <span class="v ${m.amount?'pos':''}">${m.amount?money(m.amount):"—"}
+            <button class="iconbtn" data-act="up-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 6px">↑</button>
+            <button class="iconbtn" data-act="down-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 6px">↓</button>
             <button class="iconbtn" data-act="edit-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 7px">✎</button>
             <button class="iconbtn del" data-act="del-mem" data-gid="${c.id}" data-mi="${i}" style="padding:3px 7px">🗑</button></span></div>
           <div class="addform" data-formid="editmem-${c.id}-${i}">${field("اسم المشارك","name")}${field("المبلغ","amount","number")}${area("ملاحظات","note")}${saveRow("save-edit-mem","data-gid="+c.id+" data-mi="+i)}</div>`).join("")}
         <div class="mini-actions">${addBtn("mem-"+c.id,"إضافة مشارك")}
           <button class="iconbtn" data-act="edit-grp" data-id="${c.id}">✏️ تعديل المجموعة</button>
+          <button class="iconbtn" data-act="up-contrib" data-id="${c.id}">↑</button>
+          <button class="iconbtn" data-act="down-contrib" data-id="${c.id}">↓</button>
           <button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف المجموعة</button></div>
         <div class="addform" data-formid="editgrp-${c.id}">${field("اسم المجموعة","name")}${field("إجمالي المجموعة","total","number")}${saveRow("save-edit-grp","data-id="+c.id)}</div>
         <div class="addform" data-formid="mem-${c.id}">${field("اسم المشارك","name")}${field("المبلغ","amount","number")}${area("ملاحظات","notes")}${saveRow("save-mem","data-gid="+c.id)}</div>
@@ -575,11 +706,13 @@ function renderContrib(c){
     } else {
       body=`<div class="mini-actions" style="margin-top:8px">
           <button class="iconbtn" data-act="edit-ind" data-id="${c.id}">✏️ تعديل</button>
+          <button class="iconbtn" data-act="up-contrib" data-id="${c.id}">↑</button>
+          <button class="iconbtn" data-act="down-contrib" data-id="${c.id}">↓</button>
           <button class="iconbtn del" data-act="del-contrib" data-id="${c.id}">🗑 حذف</button></div>
         <div class="addform" data-formid="editind-${c.id}">${field("الاسم","name")}${field("المبلغ (اتركه فارغاً = غير محدد)","total","number")}${area("ملاحظات","note")}${saveRow("save-edit-ind","data-id="+c.id)}</div>`;
     }
   }
-  return `<div class="card-box">${head}${body}</div>`;
+  return `<div class="card-box">${head}${body}${unlocked?attachBlock("contrib",c.id,c.attachments):""}</div>`;
 }
 function sheetContributors(){
   let admin = unlocked ? `<div class="adminbar">${addBtn("grpForm","إضافة مجموعة")}${addBtn("indForm","إضافة مشاركة فردية")}</div>
@@ -599,53 +732,77 @@ function sheetContributors(){
 function sheetObligations(){
   const r=D.receivables, a=D.allocations[0];
   // المستحقات
-  let recvHtml = r.map(x=>`<div class="card-box">
+  const recvPaidNow=x=>["تم السداد","تم السداد بواسطة شخص آخر","تم التحويل","تم الاستلام"].includes(x.status);
+  let recvHtml = r.map(x=>{
+    const paid=recvPaidNow(x), amtColor = x.amount==null?'var(--warn)' : (paid?'var(--pos)':'var(--neg)');
+    return `<div class="card-box">
     ${unlocked?`<div class="kv"><span class="k">المستحق له</span><span class="v">${esc(x.person)}</span></div>`:""}
     <div class="kv"><span class="k">البند</span><span class="v">${esc(x.reason)}</span></div>
-    <div class="kv"><span class="k">المبلغ</span><span class="v" style="color:var(--warn)">${x.amount==null?'<span class="badge wait">غير محدد</span>':money(x.amount)}</span></div>
+    <div class="kv"><span class="k">المبلغ</span><span class="v" style="color:${amtColor}">${x.amount==null?'<span class="badge wait">غير محدد</span>':money(x.amount)}</span></div>
     <div class="kv"><span class="k">الحالة</span><span class="v"><span class="badge ${badgeCls(x.status)}">${esc(x.status)}</span></span></div>
-    ${unlocked?`<div class="mini-actions">${statusSel("recv",x.id,x.status)}<button class="iconbtn del" data-act="del-recv" data-id="${x.id}">🗑</button></div>`:""}
-  </div>`).join("");
+    ${x.paidBy?`<div class="kv"><span class="k">سدّدها</span><span class="v">${esc(x.paidBy)}</span></div>`:""}
+    ${unlocked?`<div class="mini-actions">${statusSel("recv",x.id,x.status)}<button class="iconbtn" data-act="edit-recv" data-id="${x.id}">✎ تعديل</button><button class="iconbtn" data-act="up-recv" data-id="${x.id}">↑</button><button class="iconbtn" data-act="down-recv" data-id="${x.id}">↓</button><button class="iconbtn del" data-act="del-recv" data-id="${x.id}">🗑</button></div>
+      <div class="addform" data-formid="edit-recv-${x.id}">${field("الشخص","person")}${field("المبلغ (فارغ = غير محدد)","amount","number")}${field("البند","reason")}${field("سدّدها (إن وُجد)","paidBy")}${area("ملاحظات","notes")}${saveRow("save-edit-recv","data-id="+x.id)}</div>
+      ${paid?`<div class="note">💡 يمكنك إرفاق الفاتورة أدناه.</div>`:""}
+      ${attachBlock("recv",x.id,x.attachments)}`:""}
+  </div>`;}).join("");
   if(unlocked) recvHtml += `<div class="adminbar">${addBtn("recvForm","إضافة مستحق")}</div>
-    <div class="addform" data-formid="recvForm">${field("الشخص","person")}${field("المبلغ","amount","number")}${field("البند","reason")}${selectF("الحالة","status",ST1.recv)}${saveRow("save-recv")}</div>`;
+    <div class="addform" data-formid="recvForm">${field("الشخص","person")}${field("المبلغ","amount","number")}${field("البند","reason")}${selectF("الحالة","status",D.meta.recvStatuses)}${saveRow("save-recv")}</div>`;
   // التكفلات
   let spoHtml = (unlocked
     ? D.sponsorships.map(s=>`<div class="card-box"><div class="kv"><span class="k">${esc(s.name)}</span><span class="v"><span class="badge ${badgeCls(s.status)}">${esc(s.status)}</span></span></div>
         ${s.kind||s.value?`<div class="kv"><span class="k">${esc(s.kind||"—")}</span><span class="v">${s.value?money(s.value):""}</span></div>`:""}
-        <div class="mini-actions">${statusSel("spo",s.id,s.status)}<button class="iconbtn del" data-act="del-spo" data-id="${s.id}">🗑</button></div></div>`).join("")
+        <div class="mini-actions">${statusSel("spo",s.id,s.status)}<button class="iconbtn" data-act="edit-spo" data-id="${s.id}">✎ تعديل</button><button class="iconbtn del" data-act="del-spo" data-id="${s.id}">🗑</button></div>
+        <div class="addform" data-formid="edit-spo-${s.id}">${field("الاسم","name")}${field("نوع التكفل","kind")}${field("القيمة","value","number")}${area("ملاحظات","notes")}${saveRow("save-edit-spo","data-id="+s.id)}</div>
+        ${attachBlock("spo",s.id)}</div>`).join("")
       + `<div class="adminbar">${addBtn("spoForm","إضافة تكفل")}</div>
          <div class="addform" data-formid="spoForm">${field("الاسم","name")}${field("نوع التكفل","kind")}${field("القيمة","value","number")}${selectF("الحالة","status",ST1.spo)}${area("ملاحظات","notes")}${saveRow("save-spo")}</div>`
     : `<div class="card-box"><div class="kv"><span class="k">عدد التكفلات</span><span class="v">${D.sponsorships.length}</span></div>
         <div class="kv"><span class="k">الحالة</span><span class="v"><span class="badge wait">بانتظار التأكيد</span></span></div>
         <div class="note">لا تُحتسب مصروفاً أو إيراداً حتى اعتمادها.</div></div>`);
   // المبالغ المخصصة
-  let allocHtml = `<div class="card-box">
+  let allocHtml = D.allocations.map(a=>`<div class="card-box">
     ${unlocked?`<div class="kv"><span class="k">الجهة</span><span class="v">${esc(a.donor)}</span></div>`:""}
     <div class="kv"><span class="k">المبلغ</span><span class="v" style="color:var(--warn)">${money(a.amount)}</span></div>
     <div class="kv"><span class="k">الغرض</span><span class="v" style="font-weight:600">${esc(a.purpose)}</span></div>
-    ${unlocked?`<div class="kv"><span class="k">المصدر</span><span class="v" style="font-weight:600">${esc(a.source)}</span></div>`:`<div class="note">مفصولة عن التبرعات العامة.</div>`}</div>`;
+    ${unlocked?`<div class="kv"><span class="k">المصدر</span><span class="v" style="font-weight:600">${esc(a.source)}</span></div>
+      <div class="mini-actions"><button class="iconbtn" data-act="edit-alloc" data-id="${a.id}">✎ تعديل</button><button class="iconbtn del" data-act="del-alloc" data-id="${a.id}">🗑</button></div>
+      <div class="addform" data-formid="edit-alloc-${a.id}">${field("الجهة","donor")}${field("المبلغ","amount","number")}${field("الغرض","purpose")}${field("المصدر","source")}${saveRow("save-edit-alloc","data-id="+a.id)}</div>
+      ${attachBlock("alloc",a.id)}`:`<div class="note">مفصولة عن التبرعات العامة.</div>`}</div>`).join("")
+    + (unlocked?`<div class="adminbar">${addBtn("allocForm","إضافة مبلغ مخصص")}</div>
+      <div class="addform" data-formid="allocForm">${field("الجهة","donor")}${field("المبلغ","amount","number")}${field("الغرض","purpose")}${field("المصدر","source")}${saveRow("save-alloc")}</div>`:"");
   // التحويلات
   let trfHtml = (unlocked
     ? D.transfers.map(t=>`<div class="card-box"><div class="row" style="border:none;padding:0">
-        <span class="l">${esc(t.from)} → ${esc(t.to)}</span><span class="r">${money(t.amount)}</span></div>
+        <span class="l">${esc(t.from)} → ${esc(t.to)}${t.notes?`<small>${esc(t.notes)}</small>`:""}</span><span class="r">${money(t.amount)}</span></div>
         <div class="mini-actions">${statusSel("trf",t.id,t.status)}<button class="iconbtn" data-act="edit-trf" data-id="${t.id}">✎ تعديل</button><button class="iconbtn del" data-act="del-trf" data-id="${t.id}">🗑</button></div>
-        <div class="addform" data-formid="edit-trf-${t.id}">${field("المُرسِل","from")}${field("المُستلِم","to")}${field("المبلغ","amount","number")}${saveRow("save-edit-trf","data-id="+t.id)}</div></div>`).join("")
+        <div class="addform" data-formid="edit-trf-${t.id}">${field("المُرسِل","from")}${field("المُستلِم","to")}${field("المبلغ","amount","number")}${area("ملاحظات","notes")}${saveRow("save-edit-trf","data-id="+t.id)}</div>
+        ${attachBlock("trf",t.id,t.attachments)}</div>`).join("")
       + `<div class="adminbar">${addBtn("trfForm","إضافة تحويل")}</div>
-         <div class="addform" data-formid="trfForm">${field("المُرسِل","from")}${field("المُستلِم","to")}${field("المبلغ","amount","number")}${selectF("الحالة","status",ST1.trf)}${saveRow("save-trf")}</div>`
+         <div class="addform" data-formid="trfForm">${field("المُرسِل","from")}${field("المُستلِم","to")}${field("المبلغ","amount","number")}${selectF("الحالة","status",ST1.trf)}${area("ملاحظات","notes")}${saveRow("save-trf")}</div>`
     : `<div class="card-box"><div class="kv"><span class="k">عدد التحويلات</span><span class="v">${D.transfers.length}</span></div>
         <div class="kv"><span class="k">الإجمالي</span><span class="v" style="color:var(--warn)">${money(C.transTotal)}</span></div>
         <div class="note">تفاصيل المرسِل والمستلِم تظهر بعد الدخول من لوحة الإدارة.</div></div>`);
   // المخيم
   let campHtml = `<div class="card-box"><div class="note" style="margin:0 0 6px">${esc(D.camp.desc)}</div>
-      <div class="chips">${D.camp.team.map(p=>`<span class="chip"><span class="d"></span>${esc(p)}</span>`).join("")}</div></div>`
+      <div class="chips">${D.camp.team.map(p=>`<span class="chip"><span class="d"></span>${esc(p)}</span>`).join("")}</div>
+      ${unlocked?`<div class="mini-actions"><button class="iconbtn" data-act="edit-camp">✏️ تعديل المخيم</button></div>
+        <div class="addform" data-formid="campForm">${field("العنوان","title")}${field("الوصف","desc")}${field("الفريق (يفصل بفاصلة)","team")}${saveRow("save-camp")}</div>`:""}</div>`
     + D.camp.records.map(rec=>`<div class="card-box"><div class="kv" style="align-items:center"><span class="k">${dayBadge(rec.day)}</span><span class="v">عدد الذبائح: ${rec.count}</span></div>
-        ${rec.details.map(d=>`<div class="kv"><span class="k">${esc(d.label)}</span><span class="v" style="font-weight:600;text-align:left">${esc(d.note)}</span></div>`).join("")}</div>`).join("");
+        ${rec.details.map(d=>`<div class="kv"><span class="k">${esc(d.label)}</span><span class="v" style="font-weight:600;text-align:left">${esc(d.note)}</span></div>`).join("")}
+        ${unlocked?`<div class="mini-actions"><button class="iconbtn" data-act="edit-crec" data-id="${rec.id}">✎ تعديل</button><button class="iconbtn del" data-act="del-crec" data-id="${rec.id}">🗑</button></div>
+          <div class="addform" data-formid="edit-crec-${rec.id}">${field("اليوم","day")}${field("عدد الذبائح","count","number")}${area("التفاصيل (افصل بـ |)","detail")}${saveRow("save-edit-crec","data-id="+rec.id)}</div>
+          ${attachBlock("camp",rec.id,rec.attachments)}`:""}</div>`).join("")
+    + (unlocked?`<div class="adminbar">${addBtn("crecForm","إضافة سجل")}</div>
+        <div class="addform" data-formid="crecForm">${field("اليوم","day")}${field("عدد الذبائح","count","number")}${area("تفاصيل","detail")}${saveRow("add-crec")}</div>`:"");
   // البنوك
   let bankHtml = D.banks.map(b=>`<div class="card-box">
       <div class="kv"><span class="k">اسم الحساب</span><span class="v">${esc(b.name)}</span></div>
       <div class="kv"><span class="k">رقم الحساب</span><span class="v mono">${esc(b.number)}</span></div>
       <div class="kv"><span class="k">الآيبان</span><span class="v mono">${esc(b.iban)}</span></div>
-      ${b.image?`<div class="bank-img"><img src="${esc(b.image)}" alt="صورة الحساب"></div>`:`<div class="bank-img">📷 صورة الحساب — تُضاف عبر الحقل image في البيانات</div>`}</div>`).join("");
+      ${b.image?`<div class="bank-img"><img src="${esc(b.image)}" alt="صورة الحساب"></div>`:`<div class="bank-img">📷 صورة الحساب — تُضاف عبر الحقل image في البيانات</div>`}
+      ${unlocked?`<div class="mini-actions"><button class="iconbtn" data-act="edit-bank">✏️ تعديل بيانات الحساب</button></div>
+        <div class="addform" data-formid="bankForm">${field("اسم الحساب","name")}${field("رقم الحساب","number")}${field("الآيبان","iban")}${saveRow("save-bank")}</div>`:""}</div>`).join("");
 
   return `
     <div class="blk"><div class="blk-t">📌 المستحقات</div>${recvHtml}</div>
@@ -694,48 +851,64 @@ function commitmentsBlock(){
       <div class="kv"><span class="k">غير المحددة</span><span class="v">${C.commUndef}</span></div>
       <div class="kv"><span class="k">بانتظار السداد</span><span class="v warn">${money(C.commWaitPay)}</span></div>
       <div class="kv"><span class="k">ما تم سداده (ضمن المصروفات)</span><span class="v pos">${money(C.commPaidTotal)}</span></div>
-      <div class="kv"><span class="k">ما لم يُسدد</span><span class="v warn">${money(C.commUnpaid)}</span></div>
+      <div class="kv"><span class="k">ما لم يُسدد</span><span class="v" style="color:var(--neg);font-weight:800">${money(C.commUnpaid)}</span></div>
       <div class="kv"><span class="k">المقفلة</span><span class="v">${C.commClosed}</span></div>
     </div></div>`;
 }
 
-function attView(arr){
-  if(!arr||!arr.length) return `<div class="note" style="text-align:center">لا توجد مرفقات</div>`;
-  return arr.map((a,i)=>`<div class="card-box" style="background:#fff">
-    <div class="kv"><span class="k">المرفق ${i+1}</span><span class="v">${esc(a.name||'مرفق')}</span></div>
-    ${a.data&&/^image\//.test(a.mime||'')?`<img src="${a.data}" alt="مرفق" style="max-width:100%;border-radius:10px;margin-top:6px">`:''}
+function attCard(a,kind,id){
+  const dl=a.fileId?`https://drive.google.com/uc?export=download&id=${encodeURIComponent(a.fileId)}`:(a.url||"#");
+  const meta=`${a.date?esc(new Date(a.date).toLocaleDateString('ar-SA')):''}${a.type?' · '+esc(String(a.type).split('/').pop()):''}`;
+  return `<div class="card-box" style="background:#fff">
+    <div class="kv"><span class="k">${esc(a.name||'مرفق')}</span><span class="v" style="font-weight:500;font-size:11px;color:var(--ink-faint)">${meta}</span></div>
     <div class="chips" style="margin-top:6px">
-      ${a.data?`<a class="att-chip on" href="${a.data}" target="_blank" rel="noopener" download="${esc(a.file||'attachment')}">📄 فتح الملف</a>`:''}
-      ${a.drive?`<a class="att-chip on" href="${esc(a.drive)}" target="_blank" rel="noopener">📁 Google Drive</a>`:''}
-    </div></div>`).join("");
+      ${a.url?`<a class="att-chip on" href="${esc(a.url)}" target="_blank" rel="noopener">📂 فتح</a>`:''}
+      ${(a.url||a.fileId)?`<a class="att-chip on" href="${esc(dl)}" target="_blank" rel="noopener">⬇ تنزيل</a>`:''}
+      ${a.url?`<button class="iconbtn" data-act="att-copy" data-url="${esc(a.url)}" style="padding:5px 9px">🔗 نسخ الرابط</button>`:''}
+      ${unlocked&&a.fileId?`<button class="iconbtn" data-act="att-replace" data-kind="${kind}" data-id="${id}" data-fileid="${esc(a.fileId)}" style="padding:5px 9px">♻ استبدال</button>
+        <button class="iconbtn del" data-act="del-att" data-kind="${kind}" data-id="${id}" data-fileid="${esc(a.fileId)}" style="padding:5px 9px">🗑 حذف</button>`:''}
+    </div></div>`;
 }
-function statusSel(kind,id,cur){ const opts=ST1[kind]||[]; return `<select class="statussel" data-act="status" data-kind="${kind}" data-id="${id}">${opts.map(o=>`<option ${o===cur?'selected':''} value="${esc(o)}">${esc(o)}</option>`).join("")}</select>`; }
-function arrFor(kind){ return kind==="undet"?D.undetailed : kind==="commit"?D.commitments : kind==="clar"?null : D.expenses; }
-function attachBlock(kind,id,arr){
-  const n=(arr||[]).length;
-  return `<div style="margin-top:8px">${n?`<span class="att-chip on">📎 المرفقات: ${n}</span>`:`<span class="att-chip">لا توجد مرفقات بعد</span>`}</div>
-    <div class="mini-actions">
-      <button class="iconbtn" data-act="attach" data-kind="${kind}" data-id="${id}">➕ إرفاق</button>
-      ${n?`<button class="iconbtn" data-act="toggle" data-form="view-${kind}-${id}">👁 عرض المرفقات</button>`:""}
+async function loadAttList(kind,id){
+  const cont=document.querySelector(`.att-list[data-listfor="${kind}-${id}"]`); if(!cont)return;
+  cont.dataset.loaded="1";
+  cont.innerHTML=`<div class="note" style="text-align:center">جارٍ التحميل من Google Drive…</div>`;
+  const files=await listFromDrive(sectionLabel(kind),id);
+  if(files===null){ cont.innerHTML=`<div class="up-msg err">تعذّر الاتصال بـ Drive. حاول مجدداً.</div>`; return; }
+  cont.innerHTML = files.length ? files.map(a=>attCard(a,kind,id)).join("")
+    : `<div class="note" style="text-align:center">لا توجد مرفقات بعد</div>`;
+}
+function statusSel(kind,id,cur){ let opts=ST1[kind]||[]; if(kind==="recv")opts=D.meta.recvStatuses||opts;
+  return `<select class="statussel" data-act="status" data-kind="${kind}" data-id="${id}">${opts.map(o=>`<option ${o===cur?'selected':''} value="${esc(o)}">${esc(o)}</option>`).join("")}${kind==="recv"?'<option value="__new__">➕ حالة جديدة…</option>':''}</select>`; }
+function arrFor(kind){ return kind==="undet"?D.undetailed : kind==="commit"?D.commitments : kind==="recv"?D.receivables : kind==="trf"?D.transfers
+  : kind==="contrib"?D.contributions : kind==="spo"?D.sponsorships : kind==="alloc"?D.allocations : kind==="camp"?(D.camp&&D.camp.records) : kind==="upd"?D.updates : kind==="act"?D.activity
+  : kind==="clar"?null : D.expenses; }
+function attachBlock(kind,id){
+  return `<div class="mini-actions" style="margin-top:8px">
+      <button class="iconbtn" data-act="attach" data-kind="${kind}" data-id="${id}">📎 إضافة مرفق</button>
+      <button class="iconbtn" data-act="att-list" data-kind="${kind}" data-id="${id}">👁 عرض المرفقات</button>
     </div>
-    ${n?`<div class="addform" data-formid="view-${kind}-${id}" style="background:var(--page)">${attView(arr)}</div>`:""}
+    <div class="att-list" data-listfor="${kind}-${id}"></div>
     <div class="addform" data-formid="att-${kind}-${id}">
-      <div class="fld-lab">رفع صورة أو PDF من الجوال</div><input class="fld" data-field="file" type="file" accept="image/*,application/pdf">
-      ${field("رابط Google Drive","drive")}${field("وصف مختصر للمرفق","desc")}${saveRow("save-att","data-kind="+kind+" data-id="+id)}
+      <div class="fld-lab">اختر صورة / PDF / مستند من الجوال</div><input class="fld attfile" type="file">
+      ${field("ملاحظة (اختياري)","note")}
+      <div class="up-progress"><div class="up-bar"><span></span></div><div class="up-pct">0%</div></div>
+      <div class="up-msg"></div>
+      <div class="saverow"><button class="btn btn-pos" data-act="do-upload" data-kind="${kind}" data-id="${id}">⬆ رفع إلى Drive</button><button class="btn btn-soft" data-act="cancelform">إلغاء</button></div>
     </div>`;
 }
 function gateHTML(){ return `<div class="card-box" style="text-align:center;margin-top:6px">
   <button class="btn btn-soft full" data-act="sheetgate-toggle">👁 عرض تفاصيل الإدارة</button>
   <div class="gate-form sgate"><input class="gate-input sgate-in" type="password" inputmode="numeric" placeholder="••••"><button class="btn btn-pos full" data-act="sheetgate-go">دخول</button><div class="gate-err sgate-err"></div></div></div>`; }
 
-const builders={ financial:{t:"الحالة المالية",f:sheetFinancial},
-                 contributors:{t:"المساهمون في مصاريف العزاء",f:sheetContributors},
-                 obligations:{t:"الالتزامات والمتابعة",f:sheetObligations} };
+const builders={ financial:{t:()=>D.texts.cardFinancial,f:sheetFinancial},
+                 contributors:{t:()=>D.texts.cardContrib,f:sheetContributors},
+                 obligations:{t:()=>D.texts.cardOblig,f:sheetObligations} };
 
 /* ====================== فتح/إغلاق + تفاعل ====================== */
 const overlay=document.getElementById("overlay"),sheet=document.getElementById("sheet"),
       sheetTitle=document.getElementById("sheetTitle"),sheetBody=document.getElementById("sheetBody");
-function renderSheet(){ const b=builders[openSheetId]; if(!b)return; sheetTitle.textContent=b.t; sheetBody.innerHTML=b.f(); }
+function renderSheet(){ const b=builders[openSheetId]; if(!b)return; sheetTitle.textContent=(typeof b.t==="function"?b.t():b.t); sheetBody.innerHTML=b.f(); }
 function openSheet(id){ openSheetId=id; renderSheet(); overlay.classList.add("open"); sheet.classList.add("open"); document.body.classList.add("lock"); sheetBody.scrollTop=0; }
 function closeSheet(){ overlay.classList.remove("open"); sheet.classList.remove("open"); document.body.classList.remove("lock"); sheet.style.transform=""; openSheetId=null; }
 document.querySelectorAll(".mcard").forEach(c=>c.addEventListener("click",()=>openSheet(c.dataset.sheet)));
@@ -754,8 +927,7 @@ sheetBody.addEventListener("click",e=>{
   if(act==="sheetgate-go"){ const v=sheetBody.querySelector(".sgate-in").value; if(v===String(D.meta.adminPassword)){enterAdmin();renderSheet();} else sheetBody.querySelector(".sgate-err").textContent="كلمة المرور غير صحيحة"; return; }
 
   if(act==="save-exp"){ const o=readForm("expForm"); if(!o.name||!o.amount){alert("أدخل اسم المصروف والمبلغ");return;}
-    const att=[]; if(o.drive)att.push({name:o.name+" (Drive)",drive:o.drive}); if(o.file)att.push({name:o.file.name,drive:URL.createObjectURL(o.file)});
-    D.expenses.push({id:"EXP-"+String(D.expenses.length+1).padStart(4,"0"),item:o.name,category:o.category,amount:+o.amount,date:o.date,notes:o.notes,status:"مدفوع",attachments:att});
+    D.expenses.push({id:"EXP-"+String(D.expenses.length+1).padStart(4,"0"),item:o.name,category:o.category,amount:+o.amount,date:o.date,notes:o.notes,status:"مدفوع",attachments:[]});
     commit("إضافة مصروف: "+o.name+" ("+fmt(+o.amount)+")"); return; }
   if(act==="save-inc"){ const o=readForm("incForm"); if(!o.amount){alert("أدخل المبلغ");return;}
     if(o.group&&o.group!=="قسم مستقل"){ const g=D.contributions.find(c=>c.name===o.group&&c.type==="group"); if(g){ g.members.push({name:o.person||o.entity||"مساهم",amount:+o.amount,note:o.notes}); g.total=(+g.total||0)+(+o.amount); } }
@@ -773,6 +945,11 @@ sheetBody.addEventListener("click",e=>{
       f.querySelector('[data-field=amount]').value=e.amount; f.querySelector('[data-field=date]').value=e.date||"";
       f.querySelector('[data-field=status]').value=e.status||"مدفوع"; f.querySelector('[data-field=notes]').value=e.notes||"";
       f.classList.toggle("show"); } return; }
+  if(act==="edit-fin"){ const f=sheetBody.querySelector(`.addform[data-formid="finForm"]`); if(f){ f.querySelector('[data-field=viaSuleiman]').value=D.fin.viaSuleiman; f.querySelector('[data-field=totalExpenses]').value=D.fin.totalExpenses; f.querySelector('[data-field=paid]').value=D.fin.paid; f.querySelector('[data-field=remaining]').value=D.fin.remaining; f.classList.toggle("show"); } return; }
+  if(act==="save-fin"){ const o=readForm("finForm");
+    D.fin.viaSuleiman=+o.viaSuleiman||0; D.fin.totalExpenses=+o.totalExpenses||0; D.fin.paid=+o.paid||0;
+    D.fin.remaining = o.remaining===""? (D.fin.totalExpenses-D.fin.paid) : (+o.remaining||0);
+    commit("تعديل الأرقام المالية المعتمدة"); return; }
   if(act==="save-edit-exp"){ const id=t.dataset.id,o=readForm("edit-exp-"+id),e=D.expenses.find(x=>x.id===id);
     if(e){ e.item=o.item||e.item; e.category=o.category; e.amount=+o.amount||0; e.date=o.date; e.status=o.status||"مدفوع"; e.notes=o.notes; }
     commit("تعديل مصروف: "+(e?e.item:"")); return; }
@@ -783,27 +960,9 @@ sheetBody.addEventListener("click",e=>{
   if(act==="save-recv"){ const o=readForm("recvForm"); if(!o.person&&!o.reason){alert("أدخل الشخص أو البند");return;}
     D.receivables.push({id:uid("r"),person:o.person,amount:o.amount===""?null:(+o.amount||0),reason:o.reason,status:o.status||"بانتظار السداد"}); commit("إضافة مستحق: "+(o.person||o.reason)); return; }
   if(act==="save-trf"){ const o=readForm("trfForm"); if(!o.from||!o.amount){alert("أدخل المرسل والمبلغ");return;}
-    D.transfers.push({id:uid("t"),from:o.from,to:o.to,amount:+o.amount,status:o.status||"بانتظار التسليم",attachments:[]}); commit("إضافة تحويل: "+o.from); return; }
-  if(act==="edit-trf"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-trf-${t.dataset.id}"]`); if(f){const tr=D.transfers.find(x=>x.id===t.dataset.id); f.querySelector('[data-field=from]').value=tr.from; f.querySelector('[data-field=to]').value=tr.to; f.querySelector('[data-field=amount]').value=tr.amount; f.classList.toggle("show");} return; }
-  if(act==="save-edit-trf"){ const id=t.dataset.id,o=readForm("edit-trf-"+id),tr=D.transfers.find(x=>x.id===id); if(tr){tr.from=o.from;tr.to=o.to;tr.amount=+o.amount;} commit("تعديل تحويل"); return; }
-  if(act==="attach"){ const kind=t.dataset.kind||"exp", id=t.dataset.id;
-    if(!unlocked){ const p=prompt("أدخل كلمة مرور الإدارة للإرفاق:"); if(p===null)return;
-      if(p!==String(D.meta.adminPassword)){ alert("كلمة المرور غير صحيحة"); return; }
-      enterAdmin(); renderSheet(); }
-    const f=sheetBody.querySelector(`.addform[data-formid="att-${kind}-${id}"]`); if(f){f.classList.add("show"); const i=f.querySelector(".fld"); if(i)i.focus();} return; }
-  if(act==="save-att"){ const kind=t.dataset.kind||"exp", id=t.dataset.id;
-    const f=sheetBody.querySelector(`.addform[data-formid="att-${kind}-${id}"]`); if(!f)return;
-    const drive=(f.querySelector('[data-field=drive]').value||"").trim();
-    const desc=(f.querySelector('[data-field=desc]').value||"").trim();
-    const file=f.querySelector('[data-field=file]').files[0];
-    const arr=arrFor(kind); const item=arr&&arr.find(x=>x.id===id); if(!item)return;
-    item.attachments=item.attachments||[];
-    const push=(data,mime,fname)=>{ item.attachments.push({name:desc||fname||"مرفق", drive:drive||null, data:data||null, mime:mime||null, file:fname||null}); commit("إرفاق مستند ("+kind+")"); };
-    if(file && file.size<=1500000){ const rd=new FileReader(); rd.onload=()=>push(rd.result,file.type,file.name); rd.onerror=()=>push(null,null,file.name); rd.readAsDataURL(file); }
-    else if(file){ alert("الملف كبير (أكثر من 1.5MB). احفظه على Google Drive وأدخل الرابط."); if(drive||desc)push(null,null,file.name); }
-    else if(drive||desc){ push(null,null,null); }
-    else { alert("أرفق ملفاً أو رابط Drive أو وصفاً."); }
-    return; }
+    D.transfers.push({id:uid("t"),from:o.from,to:o.to,amount:+o.amount,status:o.status||"بانتظار التسليم",notes:o.notes,attachments:[]}); commit("إضافة تحويل: "+o.from); return; }
+  if(act==="edit-trf"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-trf-${t.dataset.id}"]`); if(f){const tr=D.transfers.find(x=>x.id===t.dataset.id); f.querySelector('[data-field=from]').value=tr.from; f.querySelector('[data-field=to]').value=tr.to; f.querySelector('[data-field=amount]').value=tr.amount; const nf=f.querySelector('[data-field=notes]'); if(nf)nf.value=tr.notes||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-trf"){ const id=t.dataset.id,o=readForm("edit-trf-"+id),tr=D.transfers.find(x=>x.id===id); if(tr){tr.from=o.from;tr.to=o.to;tr.amount=+o.amount;tr.notes=o.notes;} commit("تعديل تحويل"); return; }
   /* ---- مصروفات غير موضحة ---- */
   if(act==="save-undet"){ const o=readForm("undetForm"); if(!o.amount){alert("أدخل المبلغ");return;}
     D.undetailed.push({id:uid("u"),amount:+o.amount,date:o.date,payer:o.payer,note:o.note,status:o.status||"غير موضح",clarifications:[],attachments:[]});
@@ -844,14 +1003,53 @@ sheetBody.addEventListener("click",e=>{
   if(act==="save-edit-ind"){ const id=t.dataset.id,o=readForm("editind-"+id),c=D.contributions.find(x=>x.id===id);
     if(c){ if(o.name)c.name=o.name; c.note=o.note; if(o.total===""){c.total=null;c.status="بانتظار التحديد";} else {c.total=+o.total||0; delete c.status;} } commit("تعديل مشاركة فردية"); return; }
   if(act==="del-contrib"){ if(confirm("حذف هذا البند؟")){const c=D.contributions.find(x=>x.id===t.dataset.id);D.contributions=D.contributions.filter(x=>x.id!==t.dataset.id);commit("حذف مساهمة: "+(c?c.name:""));} return; }
+  if(act==="edit-recv"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-recv-${t.dataset.id}"]`); if(f){const x=D.receivables.find(r=>r.id===t.dataset.id);
+    f.querySelector('[data-field=person]').value=x.person||""; f.querySelector('[data-field=amount]').value=(x.amount==null?"":x.amount); f.querySelector('[data-field=reason]').value=x.reason||""; f.querySelector('[data-field=paidBy]').value=x.paidBy||""; f.querySelector('[data-field=notes]').value=x.notes||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-recv"){ const id=t.dataset.id,o=readForm("edit-recv-"+id),x=D.receivables.find(r=>r.id===id);
+    if(x){x.person=o.person;x.amount=o.amount===""?null:(+o.amount||0);x.reason=o.reason;x.paidBy=o.paidBy;x.notes=o.notes;} commit("تعديل مستحق"); return; }
+  if(act==="up-recv"){ moveById(D.receivables,t.dataset.id,-1); commit("ترتيب المستحقات"); return; }
+  if(act==="down-recv"){ moveById(D.receivables,t.dataset.id,1); commit("ترتيب المستحقات"); return; }
   if(act==="del-recv"){ if(confirm("حذف المستحق؟")){D.receivables=D.receivables.filter(x=>x.id!==t.dataset.id);commit("حذف مستحق");} return; }
   if(act==="del-spo"){ if(confirm("حذف التكفل؟")){D.sponsorships=D.sponsorships.filter(x=>x.id!==t.dataset.id);commit("حذف تكفل");} return; }
   if(act==="del-trf"){ if(confirm("حذف التحويل؟")){D.transfers=D.transfers.filter(x=>x.id!==t.dataset.id);commit("حذف تحويل");} return; }
+  /* ---- التكفلات: تعديل ---- */
+  if(act==="edit-spo"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-spo-${t.dataset.id}"]`); if(f){const s=D.sponsorships.find(x=>x.id===t.dataset.id);
+    f.querySelector('[data-field=name]').value=s.name||""; f.querySelector('[data-field=kind]').value=s.kind||""; f.querySelector('[data-field=value]').value=s.value||""; f.querySelector('[data-field=notes]').value=s.notes||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-spo"){ const id=t.dataset.id,o=readForm("edit-spo-"+id),s=D.sponsorships.find(x=>x.id===id);
+    if(s){s.name=o.name;s.kind=o.kind;s.value=+o.value||0;s.notes=o.notes;} commit("تعديل تكفل"); return; }
+  /* ---- المبالغ المخصصة ---- */
+  if(act==="save-alloc"){ const o=readForm("allocForm"); if(!o.purpose&&!o.donor){alert("أدخل الجهة أو الغرض");return;}
+    D.allocations.push({id:uid("a"),donor:o.donor,amount:+o.amount||0,purpose:o.purpose,source:o.source,attachments:[]}); commit("إضافة مبلغ مخصص"); return; }
+  if(act==="edit-alloc"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-alloc-${t.dataset.id}"]`); if(f){const a=D.allocations.find(x=>x.id===t.dataset.id);
+    f.querySelector('[data-field=donor]').value=a.donor||""; f.querySelector('[data-field=amount]').value=a.amount||""; f.querySelector('[data-field=purpose]').value=a.purpose||""; f.querySelector('[data-field=source]').value=a.source||""; f.classList.toggle("show");} return; }
+  if(act==="save-edit-alloc"){ const id=t.dataset.id,o=readForm("edit-alloc-"+id),a=D.allocations.find(x=>x.id===id);
+    if(a){a.donor=o.donor;a.amount=+o.amount||0;a.purpose=o.purpose;a.source=o.source;} commit("تعديل مبلغ مخصص"); return; }
+  if(act==="del-alloc"){ if(confirm("حذف المبلغ المخصص؟")){D.allocations=D.allocations.filter(x=>x.id!==t.dataset.id);commit("حذف مبلغ مخصص");} return; }
+  /* ---- المخيم والذبائح ---- */
+  if(act==="edit-camp"){ const f=sheetBody.querySelector(`.addform[data-formid="campForm"]`); if(f){f.querySelector('[data-field=title]').value=D.camp.title||""; f.querySelector('[data-field=desc]').value=D.camp.desc||""; f.querySelector('[data-field=team]').value=(D.camp.team||[]).join("، "); f.classList.toggle("show");} return; }
+  if(act==="save-camp"){ const o=readForm("campForm"); D.camp.title=o.title||D.camp.title; D.camp.desc=o.desc; D.camp.team=(o.team||"").split(/[،,]/).map(s=>s.trim()).filter(Boolean); commit("تعديل المخيم"); return; }
+  if(act==="add-crec"){ const o=readForm("crecForm"); if(!o.day){alert("أدخل اليوم");return;} D.camp.records.push({id:uid("cr"),day:o.day,count:+o.count||0,details:o.detail?[{label:"تفصيل",note:o.detail}]:[],attachments:[]}); commit("إضافة سجل ذبائح"); return; }
+  if(act==="edit-crec"){ const f=sheetBody.querySelector(`.addform[data-formid="edit-crec-${t.dataset.id}"]`); if(f){const rec=D.camp.records.find(x=>x.id===t.dataset.id);
+    f.querySelector('[data-field=day]').value=rec.day||""; f.querySelector('[data-field=count]').value=rec.count||0; f.querySelector('[data-field=detail]').value=(rec.details||[]).map(d=>d.note).join(" | "); f.classList.toggle("show");} return; }
+  if(act==="save-edit-crec"){ const id=t.dataset.id,o=readForm("edit-crec-"+id),rec=D.camp.records.find(x=>x.id===id);
+    if(rec){rec.day=o.day;rec.count=+o.count||0; if(o.detail)rec.details=o.detail.split("|").map(s=>({label:"تفصيل",note:s.trim()})).filter(d=>d.note);} commit("تعديل سجل ذبائح"); return; }
+  if(act==="del-crec"){ if(confirm("حذف السجل؟")){D.camp.records=D.camp.records.filter(x=>x.id!==t.dataset.id);commit("حذف سجل ذبائح");} return; }
+  /* ---- البنوك ---- */
+  if(act==="edit-bank"){ const f=sheetBody.querySelector(`.addform[data-formid="bankForm"]`); if(f){const b=D.banks[0]||{}; f.querySelector('[data-field=name]').value=b.name||""; f.querySelector('[data-field=number]').value=b.number||""; f.querySelector('[data-field=iban]').value=b.iban||""; f.classList.toggle("show");} return; }
+  if(act==="save-bank"){ const o=readForm("bankForm"); if(!D.banks[0])D.banks[0]={}; D.banks[0].name=o.name; D.banks[0].number=o.number; D.banks[0].iban=o.iban; commit("تعديل بيانات الحساب"); return; }
+  /* ---- ترتيب المساهمات والمشاركين ---- */
+  if(act==="up-contrib"){ moveById(D.contributions,t.dataset.id,-1); commit("ترتيب المساهمات"); return; }
+  if(act==="down-contrib"){ moveById(D.contributions,t.dataset.id,1); commit("ترتيب المساهمات"); return; }
+  if(act==="up-mem"||act==="down-mem"){ const g=D.contributions.find(c=>c.id===t.dataset.gid); if(g){ const i=+t.dataset.mi, j=i+(act==="up-mem"?-1:1); if(j>=0&&j<g.members.length){ const m=g.members.splice(i,1)[0]; g.members.splice(j,0,m);} } commit("ترتيب المشاركين"); return; }
 });
 sheetBody.addEventListener("change",e=>{
   const s=e.target.closest("[data-act=status]"); if(!s)return;
-  const kind=s.dataset.kind,id=s.dataset.id,val=s.value;
-  if(kind==="recv"){const x=D.receivables.find(r=>r.id===id);if(x)x.status=val;}
+  const kind=s.dataset.kind,id=s.dataset.id; let val=s.value;
+  if(kind==="recv"){
+    if(val==="__new__"){ const nv=prompt("اسم الحالة الجديدة:"); if(!nv){renderSheet();return;} if(!D.meta.recvStatuses.includes(nv))D.meta.recvStatuses.push(nv); val=nv; }
+    const x=D.receivables.find(r=>r.id===id); if(x){ x.status=val;
+      if(val==="تم السداد بواسطة شخص آخر"){ const who=prompt("اسم الشخص الذي قام بالسداد:",x.paidBy||""); x.paidBy=who||x.paidBy||""; } }
+  }
   if(kind==="trf"){const x=D.transfers.find(r=>r.id===id);if(x)x.status=val;}
   if(kind==="spo"){const x=D.sponsorships.find(r=>r.id===id);if(x)x.status=val;}
   if(kind==="commit"){const x=D.commitments.find(r=>r.id===id);if(x)x.status=val;}
@@ -883,13 +1081,16 @@ document.addEventListener("click",e=>{
 const adminToggle=document.getElementById("adminToggle"),adminGate=document.getElementById("adminGate"),
       adminInput=document.getElementById("adminInput"),adminGo=document.getElementById("adminGo"),
       adminErr=document.getElementById("adminErr"),adminPanel=document.getElementById("adminPanel");
-function enterAdmin(){ unlocked=true; adminGate.classList.remove("show"); adminToggle.style.display="none"; adminPanel.style.display="block"; renderActivity(); }
+function fillTexts(){ const set=(id,v)=>{const el=document.getElementById(id); if(el)el.value=v||"";};
+  set("txTitle",D.texts.title); set("txDua",D.texts.dua); set("txTag",D.texts.tagline); set("txUpd",D.meta.lastUpdate);
+  set("txCF",D.texts.cardFinancial); set("txCC",D.texts.cardContrib); set("txCO",D.texts.cardOblig); }
+function enterAdmin(){ unlocked=true; adminGate.classList.remove("show"); adminToggle.style.display="none"; adminPanel.style.display="block"; renderActivity(); fillTexts(); }
 function renderActivity(){ const el=document.getElementById("actLog"); if(!el)return;
   el.innerHTML = (D.activity.length ? D.activity.map((a,i)=>`<div class="ai"><div class="am">${esc(a.who)}: ${esc(a.action)}</div>
       <div class="at">${esc(a.time)}
         <button class="iconbtn" data-act="ac-edit" data-i="${i}" style="padding:2px 6px;margin-inline-start:6px">✎</button>
         <button class="iconbtn del" data-act="ac-del" data-i="${i}" style="padding:2px 6px">🗑</button></div>
-      <div class="addform" data-formid="acedit-${i}">${field("نوع/نص العملية","action")}${field("من","who")}${field("التاريخ/الوقت","time")}${saveRow("save-ac-edit","data-i="+i)}</div></div>`).join("")
+      <div class="addform" data-formid="acedit-${i}">${field("نوع/نص العملية","action")}${field("من","who")}${field("التاريخ/الوقت","time")}${saveRow("save-ac-edit","data-i="+i)}</div>${attachBlock("act",a.id,a.attachments)}</div>`).join("")
       : `<div class="note" style="text-align:center">لا يوجد نشاط بعد.</div>`)
     + `<div class="mini-actions" style="margin-top:8px">${addBtn("acForm","إضافة بند يدوي")}</div>
       <div class="addform" data-formid="acForm">${field("نوع/نص العملية","action")}${field("من (اختياري)","who")}${field("التاريخ/الوقت (اختياري)","time")}${saveRow("save-ac")}</div>`;
@@ -900,6 +1101,57 @@ adminGo.addEventListener("click",adminSubmit);
 adminInput.addEventListener("keydown",e=>{if(e.key==="Enter")adminSubmit();});
 document.getElementById("lockBtn").addEventListener("click",()=>{ unlocked=false; adminPanel.style.display="none"; adminToggle.style.display=""; adminGate.classList.remove("show"); adminInput.value=""; if(openSheetId)renderSheet(); });
 document.getElementById("resetBtn").addEventListener("click",()=>{ if(confirm("إعادة تعيين جميع البيانات إلى الوضع الأصلي؟ سيُحذف ما أضفته.")){ D=JSON.parse(JSON.stringify(SEED)); commit("إعادة تعيين البيانات"); } });
+document.getElementById("saveTexts").addEventListener("click",()=>{
+  const g=id=>{const el=document.getElementById(id);return el?el.value.trim():"";};
+  D.texts.title=g("txTitle")||D.texts.title; D.texts.dua=g("txDua"); D.texts.tagline=g("txTag");
+  D.meta.lastUpdate=g("txUpd")||D.meta.lastUpdate; D.meta.lastUpdateEdited=true;
+  D.texts.cardFinancial=g("txCF")||D.texts.cardFinancial; D.texts.cardContrib=g("txCC")||D.texts.cardContrib; D.texts.cardOblig=g("txCO")||D.texts.cardOblig;
+  commit("تعديل النصوص والعناوين"); alert("تم حفظ النصوص ✓");
+});
+
+/* ====================== المرفقات عبر Google Drive ====================== */
+function refreshAll(){ renderCards(); renderActivity(); if(openSheetId)renderSheet(); }
+function ensureAdminForAttach(){
+  if(unlocked)return true;
+  const p=prompt("أدخل كلمة مرور الإدارة:"); if(p===null)return false;
+  if(p!==String(D.meta.adminPassword)){ alert("كلمة المرور غير صحيحة"); return false; }
+  enterAdmin(); refreshAll(); return true;
+}
+function logAttAct(msg){ logAct(msg); saveState(); renderActivity(); }
+async function runUpload(kind, id){
+  const f=document.querySelector(`.addform[data-formid="att-${kind}-${id}"]`); if(!f)return;
+  const fileEl=f.querySelector('input[type=file]'); const file=fileEl&&fileEl.files[0];
+  const note=(f.querySelector('[data-field=note]')&&f.querySelector('[data-field=note]').value||"").trim();
+  if(!file){ alert("اختر ملفاً أولاً"); return; }
+  const prog=f.querySelector('.up-progress'), bar=f.querySelector('.up-bar span'), pct=f.querySelector('.up-pct'), msg=f.querySelector('.up-msg');
+  const btn=f.querySelector('[data-act="do-upload"]');
+  if(prog)prog.classList.add("show"); if(bar)bar.style.width="0%"; if(pct)pct.textContent="0%";
+  if(msg){msg.className="up-msg";msg.textContent="جارٍ الرفع…";} if(btn)btn.disabled=true;
+  try{
+    await uploadToDrive(file,{section:sectionLabel(kind),itemId:id,note},p=>{ if(bar)bar.style.width=p+"%"; if(pct)pct.textContent=p+"%"; });
+    const rep=f.getAttribute("data-replace");
+    if(rep){ deleteFromDrive(rep); f.removeAttribute("data-replace"); }
+    if(msg){msg.className="up-msg ok";msg.textContent=rep?"تم الاستبدال بنجاح ✓":"تم الرفع بنجاح ✓";}
+    if(fileEl)fileEl.value=""; f.classList.remove("show"); if(prog)prog.classList.remove("show");
+    logAttAct((rep?"استبدال مرفق في ":"إرفاق مستند في ")+sectionLabel(kind)+" — "+itemLabel(kind,id));
+    loadAttList(kind,id);            // استرجاع دائماً من Drive
+  }catch(err){ if(msg){msg.className="up-msg err";msg.textContent="تعذّر الرفع: "+err.message;} if(btn)btn.disabled=false; }
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]"); if(!t)return;
+  const act=t.dataset.act;
+  if(!["attach","do-upload","att-list","att-copy","del-att","att-replace"].includes(act)) return;
+  const kind=t.dataset.kind, id=t.dataset.id;
+  if(act==="attach"){ if(!ensureAdminForAttach())return; const f=document.querySelector(`.addform[data-formid="att-${kind}-${id}"]`); if(f){f.removeAttribute("data-replace"); f.classList.add("show"); const i=f.querySelector('input[type=file]'); if(i)i.focus();} return; }
+  if(act==="att-replace"){ if(!ensureAdminForAttach())return; const f=document.querySelector(`.addform[data-formid="att-${kind}-${id}"]`); if(f){f.setAttribute("data-replace",t.dataset.fileid||""); f.classList.add("show"); const m=f.querySelector('.up-msg'); if(m){m.className="up-msg";m.textContent="اختر الملف البديل ثم اضغط رفع.";} const i=f.querySelector('input[type=file]'); if(i)i.focus();} return; }
+  if(act==="do-upload"){ runUpload(kind,id); return; }
+  if(act==="att-list"){ loadAttList(kind,id); return; }
+  if(act==="att-copy"){ const url=t.dataset.url||""; const done=()=>{ const o=t.textContent; t.textContent="✓ تم النسخ"; setTimeout(()=>t.textContent=o,1500); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done).catch(()=>prompt("انسخ الرابط:",url)); } else prompt("انسخ الرابط:",url); return; }
+  if(act==="del-att"){ const fileId=t.dataset.fileid; if(!fileId)return; if(!confirm("حذف هذا المرفق من Google Drive؟"))return;
+    t.disabled=true; t.textContent="جارٍ الحذف…";
+    deleteFromDrive(fileId).then(ok=>{ logAttAct("حذف مرفق من "+sectionLabel(kind)+" — "+itemLabel(kind,id)); loadAttList(kind,id); }); return; }
+});
 
 /* ====================== سحب الـ Sheet ====================== */
 const handle=document.getElementById("sheetHandle"),head=document.querySelector(".sheet-head");
